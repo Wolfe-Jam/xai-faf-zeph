@@ -1,4 +1,4 @@
-# ZEPH‸ — Ultra Context Layer (UCL)
+# ZEPH💨 — Ultra Context Layer (UCL)
 
 **ZEPH — clipped from Zephyrus, Greek god of the west wind.**  
 The 💨 is the role. The /F/ is the family. Joins **FAF🐘** (memory) as **ZEPH💨** (delivery).
@@ -20,7 +20,7 @@ ZEPH makes it **native everywhere** — browser, edge, Node, Bun, and (soon) Col
 **Current public substrate (MIT, on registries):**
 - `faf-rust-sdk` v2 (crates.io) — parse / validate / score / FAFb binary
 - `faf-wasm-sdk` v2 (npm) — same engine, browser / edge / Node / Bun
-- `grok-faf-mcp` — live MCP server (first MCP for Grok)
+- `grok-faf-mcp` — live MCP server for Grok
 
 ZEPH completes the picture as the **ultra-low-latency path**.
 

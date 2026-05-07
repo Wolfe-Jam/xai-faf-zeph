@@ -1,0 +1,21 @@
+# Zig build artifacts
+zig-out/
+zig-cache/
+.zig-cache/
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Node / npm (for future JS bindings)
+node_modules/
+*.log
+.npm/
+
+# Local env
+.env
+.env.local

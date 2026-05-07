@@ -1,0 +1,13 @@
+# GitHub Linguist — Zig-first repo
+# The Zig core is the engine; everything else is illustration.
+
+# Exclude demo/example surfaces from language stats
+examples/**       linguist-documentation
+
+# Defensive: build artifacts (already in .gitignore, but mark as generated)
+zig-out/**        linguist-generated
+zig-cache/**      linguist-generated
+.zig-cache/**     linguist-generated
+
+# Ensure Zig is detected on .zig files (default, but explicit)
+*.zig             linguist-language=Zig

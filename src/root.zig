@@ -4,12 +4,12 @@
 
 const std = @import("std");
 
-// Public WASM exports (will be expanded)
-export fn zeph_version() u32 {
+// Public WASM exports — also importable from Zig consumers (`pub`).
+pub export fn zeph_version() u32 {
     return 1; // v0.1.0
 }
 
-export fn zeph_load_context(ptr: [*]const u8, len: usize) u32 {
+pub export fn zeph_load_context(ptr: [*]const u8, len: usize) u32 {
     // TODO: real parser
     // For now: return fake score (94%)
     _ = ptr;
@@ -17,7 +17,7 @@ export fn zeph_load_context(ptr: [*]const u8, len: usize) u32 {
     return 94;
 }
 
-export fn zeph_get_section(name_ptr: [*]const u8, name_len: usize) u32 {
+pub export fn zeph_get_section(name_ptr: [*]const u8, name_len: usize) u32 {
     // TODO: O(1) string table lookup + zero-copy return
     _ = name_ptr;
     _ = name_len;

@@ -43,6 +43,19 @@ zig build -Dtarget=wasm32-freestanding
 - `rfc` — proposed change to format, API, or integration surface
 - `good first issue` — safe entry points for new contributors
 
+## WJTTC test convention (4-tier discipline)
+
+Test names in `src/` and `benchmarks/` follow the FAF-family WJTTC tier convention. Prefix each test with its tier so the suite tells you what *kind* of confidence you have at a glance:
+
+- **BRAKE**  — ABI / memory safety / error paths (the test that catches you when something breaks)
+- **ENGINE** — core functionality (parse / validate / score / retrieve correctness)
+- **AERO**   — optimization (size / speed / allocation count / cache behaviour)
+- **PIT**    — setup / teardown / fixtures / harness plumbing
+
+Example: `test "BRAKE: parser rejects truncated header"`, `test "ENGINE: section retrieval round-trips"`, `test "AERO: full parse stays under 200 μs"`.
+
+Convention only — no framework dependency. A `/wjttc` skill (planned) will audit the suite and report tier balance / coverage gaps that `zig test` alone cannot.
+
 ## RFC process (required for impactful changes)
 
 1. Open issue with `rfc` label describing the change and why.

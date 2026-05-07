@@ -1,0 +1,60 @@
+{
+  "birthCertificate": {
+    "born": "2026-05-07T22:08:30.507Z",
+    "birthDNA": 43,
+    "birthDNASource": "legacy",
+    "projectDNA": "351bd9f2b622860b",
+    "authenticated": false,
+    "certificate": "FAF-2026-XAIFAFZE-R3AH"
+  },
+  "versions": [
+    {
+      "version": "v1.0.0",
+      "timestamp": "2026-05-07T22:08:30.508Z",
+      "score": 43,
+      "changes": [
+        "Initial context from CLAUDE.md"
+      ],
+      "approved": false,
+      "growth": 0,
+      "growthRate": 0
+    }
+  ],
+  "current": {
+    "version": "v1.0.0",
+    "score": 43,
+    "approved": false,
+    "lastSync": "2026-05-07T22:08:30.508Z"
+  },
+  "recovery": {
+    "claudeMD": "/Users/wolfejam/FAF/xai-faf-zeph/CLAUDE.md",
+    "lastBackup": "2026-05-07T22:08:30.508Z",
+    "syncStatus": "active",
+    "autoRecover": true
+  },
+  "growth": {
+    "totalGrowth": 0,
+    "daysActive": 0,
+    "averageDailyGrowth": 0,
+    "bestDay": {
+      "date": "2026-05-07T22:08:30.508Z",
+      "growth": 0
+    },
+    "bestWeek": {
+      "start": "2026-05-07T22:08:30.508Z",
+      "growth": 0
+    },
+    "milestones": [
+      {
+        "type": "birth",
+        "score": 43,
+        "date": "2026-05-07T22:08:30.508Z",
+        "version": "v1.0.0",
+        "label": "Birth",
+        "emoji": "🐣"
+      }
+    ]
+  },
+  "lastModified": "2026-05-07T22:08:30.508Z",
+  "format": "faf-dna-v1"
+}

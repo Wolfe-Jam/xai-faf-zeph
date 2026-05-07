@@ -57,12 +57,17 @@ pub const Context = struct {
     }
 };
 
-// Tests
-test "zeph version" {
+// Tests follow WJTTC 4-tier convention (see CONTRIBUTING.md):
+//   BRAKE  = ABI / memory safety / error paths
+//   ENGINE = core functionality (parse / validate / score / retrieve)
+//   AERO   = optimization (size / speed / zero-alloc)
+//   PIT    = setup / teardown / fixtures
+
+test "BRAKE: zeph_version returns u32 ABI version" {
     try std.testing.expectEqual(@as(u32, 1), zeph_version());
 }
 
-test "parse stub header" {
+test "ENGINE: parse_fafb recognizes FAFB magic bytes" {
     const data = "FAFB\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00";
     const header = try parse_fafb(data);
     try std.testing.expectEqualSlices(u8, "FAFB", &header.magic);

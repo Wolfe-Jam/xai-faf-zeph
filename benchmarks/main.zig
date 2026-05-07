@@ -3,7 +3,7 @@
 // Run: zig build benchmark
 
 const std = @import("std");
-const zeph = @import("../src/root.zig");
+const zeph = @import("zeph");
 
 pub fn main() !void {
     const stdout = std.io.getStdOut().writer();

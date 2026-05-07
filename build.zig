@@ -4,6 +4,12 @@ pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
+    // Expose ZEPH core as a named module so out-of-tree consumers
+    // (benchmarks, examples) can `@import("zeph")` instead of relative paths.
+    const zeph_module = b.addModule("zeph", .{
+        .root_source_file = b.path("src/root.zig"),
+    });
+
     // Main library
     const lib = b.addStaticLibrary(.{
         .name = "zeph",
@@ -41,6 +47,7 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = .ReleaseFast,
     });
+    bench.root_module.addImport("zeph", zeph_module);
     const run_bench = b.addRunArtifact(bench);
     const bench_step = b.step("benchmark", "Run performance benchmarks");
     bench_step.dependOn(&run_bench.step);

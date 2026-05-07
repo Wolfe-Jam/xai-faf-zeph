@@ -11,7 +11,7 @@ This roadmap is living. xAI priorities override everything. Phases are measurabl
 **Deliverables**
 - Full Zig parser, validator, scorer, compile/decompile to FAFb v1/v2
 - WASM binary ≤ 5 KB (target 2.7 KB “ghost”)
-- 169 μs avg / < 10 μs peak on 2019 iMac (reproducible)
+- Reproducible 169 μs avg / 3.36 μs peak on 2019 iMac (matching the existing measurement)
 - 100% FAFb round-trip + conformance tests
 - npm package `faf-zeph` (or `@xai/faf-zeph`) with zero-config JS bindings
 - Live browser demo (this repo’s `/examples/browser-demo`)

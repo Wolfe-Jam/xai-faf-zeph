@@ -11,7 +11,7 @@ The 💨 is the role. The /F/ is the family. Joins **FAF🐘** (memory) as **ZEP
 ZEPH is the performance engine for the **Foundational Context Layer (FCL)**.  
 It turns persistent project DNA (`.faf`) into **stupidly fast**, scalable, native-everywhere context operations.
 
-Measured on a 2019 iMac: **169 μs avg / 3.36 μs peak**. 100×-class gains on the lowest-end hardware we test on. Colossus-scale results incoming.
+Measured on a 2019 iMac: **169 μs avg / 3.36 μs peak**. 100×-class gain vs the equivalent Rust path on the same hardware (full reproducible methodology lands in `/benchmarks` in Phase 1). Colossus-scale results incoming.
 
 ## Why ZEPH exists
 Context is the highest-leverage knob in the agentic stack.  
@@ -86,7 +86,7 @@ MIT — same as the entire FAF family.
 
 ## Credits & Doctrine
 
-- Created by the .faf author (wolfe_jam) in direct collaboration with xAI
+- Created by wolfejam (the .faf author) in direct collaboration with xAI
 - Sigil doctrine: every FAF-family brand mark earns a one-character role-compression sigil.  
   🐘 = never forgets (FAF)  
   💨 = never delays (ZEPH)

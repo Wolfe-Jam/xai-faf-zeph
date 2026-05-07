@@ -3,7 +3,7 @@ name: xAI Priority
 about: For xAI team members — highest priority lane
 title: '[xAI] '
 labels: xai-priority, urgent
-assignees: wolfe_jam
+assignees: Wolfe-Jam
 ---
 
 **xAI internal reference:** (optional)

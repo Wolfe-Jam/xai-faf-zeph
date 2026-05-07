@@ -14,11 +14,11 @@
         }
         
         body {
-            font-family: 'Inter', system_ui, sans-serif;
+            font-family: 'Inter', system-ui, sans-serif;
         }
-        
+
         .font-display {
-            font-family: 'Space Grotesk', 'Inter', system_ui, sans-serif;
+            font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
             font-weight: 600;
         }
 
@@ -245,21 +245,22 @@
                 </div>
             </div>
             
+            <div class="text-[10px] text-amber-400 uppercase tracking-widest mb-3 font-mono">Phase 1 projection — sub-component breakdown</div>
             <div class="grid grid-cols-3 gap-3 mb-8">
                 <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4">
                     <div class="text-xs text-zinc-500">PARSE</div>
                     <div class="font-display text-3xl font-semibold mt-1 metric" id="parse-time">12.4</div>
-                    <div class="text-[10px] text-emerald-400">μs</div>
+                    <div class="text-[10px] text-amber-400">μs · projected</div>
                 </div>
                 <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4">
                     <div class="text-xs text-zinc-500">SCORE</div>
                     <div class="font-display text-3xl font-semibold mt-1 metric" id="score-time">4.1</div>
-                    <div class="text-[10px] text-emerald-400">μs</div>
+                    <div class="text-[10px] text-amber-400">μs · projected</div>
                 </div>
                 <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4">
                     <div class="text-xs text-zinc-500">RETRIEVE</div>
                     <div class="font-display text-3xl font-semibold mt-1 metric" id="retrieve-time">2.8</div>
-                    <div class="text-[10px] text-emerald-400">μs</div>
+                    <div class="text-[10px] text-amber-400">μs · projected</div>
                 </div>
             </div>
             
@@ -270,7 +271,7 @@
             </button>
             
             <div class="text-center mt-4 text-[10px] text-zinc-500">
-                Real numbers from 2019 iMac • Real engine will be 5–10× faster</div>
+                169 μs total measured on 2019 iMac • Component breakdown is Phase 1 projection</div>
         </div>
     </div>
 
@@ -295,26 +296,26 @@
             </thead>
             <tbody class="divide-y divide-zinc-800 text-sm">
                 <tr>
-                    <td class="py-4 font-medium">Full .faf parse + validate</td>
+                    <td class="py-4 font-medium">Full .faf parse + validate <span class="text-emerald-400 text-[10px] font-mono ml-1">MEASURED</span></td>
                     <td class="py-4 text-right font-mono">169 μs</td>
                     <td class="py-4 text-right font-mono text-emerald-400">3.36 μs</td>
-                    <td class="py-4 text-right text-emerald-400">~100× faster*</td>
+                    <td class="py-4 text-right text-emerald-400">100×-class*</td>
                 </tr>
                 <tr>
-                    <td class="py-4 font-medium">Section retrieval (O(1))</td>
-                    <td class="py-4 text-right font-mono">2.8 μs</td>
-                    <td class="py-4 text-right font-mono">0.9 μs</td>
-                    <td class="py-4 text-right">—</td>
+                    <td class="py-4 font-medium">Section retrieval (O(1)) <span class="text-amber-400 text-[10px] font-mono ml-1">PROJECTED</span></td>
+                    <td class="py-4 text-right font-mono text-zinc-400">~2.8 μs</td>
+                    <td class="py-4 text-right font-mono text-zinc-400">~0.9 μs</td>
+                    <td class="py-4 text-right text-zinc-500">Phase 1</td>
                 </tr>
                 <tr>
-                    <td class="py-4 font-medium">FAFb compile (to binary)</td>
-                    <td class="py-4 text-right font-mono">41 μs</td>
-                    <td class="py-4 text-right font-mono">11 μs</td>
-                    <td class="py-4 text-right">—</td>
+                    <td class="py-4 font-medium">FAFb compile (to binary) <span class="text-amber-400 text-[10px] font-mono ml-1">PROJECTED</span></td>
+                    <td class="py-4 text-right font-mono text-zinc-400">~41 μs</td>
+                    <td class="py-4 text-right font-mono text-zinc-400">~11 μs</td>
+                    <td class="py-4 text-right text-zinc-500">Phase 1</td>
                 </tr>
             </tbody>
         </table>
-        <div class="text-[10px] text-zinc-500 mt-3">*Compared to equivalent Rust path on same hardware. Real Zig gains will be higher.</div>
+        <div class="text-[10px] text-zinc-500 mt-3">*100×-class gain vs equivalent Rust path on the same hardware. Full reproducible methodology lands in /benchmarks (Phase 1).</div>
     </div>
 
     <!-- FOOTER / CTA -->
@@ -329,11 +330,11 @@
                     <span>Star on GitHub • Follow progress</span>
                 </a>
                 
-                <div onclick="window.location.href='https://x.com/wolfe_jam'" 
-                     class="cursor-pointer inline-flex items-center justify-center gap-x-3 px-8 py-3.5 bg-white text-black rounded-3xl text-sm font-semibold hover:bg-zinc-100 transition-all">
+                <a href="https://x.com/wolfe_jam/status/2036534380215050638" target="_blank"
+                   class="inline-flex items-center justify-center gap-x-3 px-8 py-3.5 bg-white text-black rounded-3xl text-sm font-semibold hover:bg-zinc-100 transition-all">
                     <span>Join the thread</span>
                     <i class="fas fa-arrow-up-right-from-square text-xs"></i>
-                </div>
+                </a>
             </div>
             
             <div class="mt-12 text-[10px] text-zinc-500">

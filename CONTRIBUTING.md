@@ -66,7 +66,7 @@ The mark is the name. The sigil is the function. Use them proudly in docs, demos
 
 ## Contact / escalation
 
-- For xAI-internal matters: open private issue or tag `@wolfe_jam` in the thread.
+- For xAI-internal matters: open private issue or tag `@Wolfe-Jam` in the thread.
 - For public technical discussion: use this repo’s issues and discussions.
 - Reference thread: https://x.com/wolfe_jam/status/2036534380215050638
 

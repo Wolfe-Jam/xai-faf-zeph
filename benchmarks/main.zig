@@ -8,7 +8,7 @@ const zeph = @import("../src/root.zig");
 pub fn main() !void {
     const stdout = std.io.getStdOut().writer();
     try stdout.print("ZEPH💨 Benchmark — Phase 1 skeleton\n", .{});
-    try stdout.print("Reference: 2019 iMac — 169 μs avg / 3.36 μs peak (target)\n\n", .{});
+    try stdout.print("Reference: 2019 iMac — 169 μs avg / 3.36 μs peak (measured)\n\n", .{});
 
     // Fake benchmark loop (real timing + SIMD coming in Phase 1)
     var timer = try std.time.Timer.start();

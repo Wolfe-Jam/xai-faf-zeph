@@ -25,7 +25,8 @@ export fn zeph_get_section(name_ptr: [*]const u8, name_len: usize) u32 {
 }
 
 // Minimal FAFb header parser stub (will become full in Phase 1)
-pub const FafbHeader = packed struct {
+// extern struct: C-ABI layout, supports [N]u8 fields — correct for binary headers.
+pub const FafbHeader = extern struct {
     magic: [4]u8,      // "FAFB"
     version: u16,
     flags: u16,

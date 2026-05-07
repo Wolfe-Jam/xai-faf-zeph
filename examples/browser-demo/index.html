@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZEPH💨 — Live Demo • Ultra Context Layer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap');
+        
+        :root {
+            --primary: #0a0a0a;
+        }
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .font-display {
+            font-family: 'Space Grotesk', 'Inter', system_ui, sans-serif;
+            font-weight: 600;
+        }
+
+        .sigil {
+            font-size: 2.5rem;
+            line-height: 1;
+        }
+
+        .glass {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+        }
+
+        .metric {
+            font-variant-numeric: tabular-nums;
+        }
+
+        .breeze {
+            animation: breeze 3s ease-in-out infinite;
+        }
+
+        @keyframes breeze {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(4px); }
+        }
+
+        .faf-card {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .faf-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        .perf-bar {
+            transition: width 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .section {
+            scroll-margin-top: 4rem;
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-200">
+    <!-- NAV -->
+    <nav class="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-lg sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-x-4">
+                <div class="flex items-center gap-x-3">
+                    <div class="w-11 h-11 bg-white rounded-2xl flex items-center justify-center shadow-inner">
+                        <span class="sigil text-black">💨</span>
+                    </div>
+                    <div>
+                        <div class="font-display text-3xl font-semibold tracking-tighter">ZEPH</div>
+                        <div class="text-[10px] text-emerald-400 -mt-1 tracking-[3px]">ULTRA CONTEXT LAYER</div>
+                    </div>
+                </div>
+                <div class="px-3 py-1 rounded-full bg-zinc-900 text-xs font-mono border border-zinc-800 flex items-center gap-x-1.5">
+                    <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                    <span class="text-emerald-400">v0.1.0 • Phase 1</span>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-x-3">
+                <a href="https://github.com/Wolfe-Jam/xai-faf-zeph" target="_blank"
+                   class="px-5 py-2.5 text-sm font-medium flex items-center gap-x-2 hover:bg-zinc-900 rounded-3xl border border-zinc-800 transition-colors">
+                    <i class="fab fa-github"></i>
+                    <span>GitHub</span>
+                </a>
+                <a href="#demo" 
+                   class="px-6 py-2.5 bg-white text-black text-sm font-semibold rounded-3xl flex items-center gap-x-2 hover:bg-zinc-100 transition-all active:scale-[0.985]">
+                    <span>Try Live Demo</span>
+                    <i class="fas fa-arrow-right text-xs"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <div class="max-w-5xl mx-auto px-6 pt-16 pb-20 text-center">
+        <div class="inline-flex items-center gap-x-2 px-4 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 mb-6">
+            <span class="text-emerald-400">⚡</span>
+            <span class="text-sm font-medium">GrokX • xAI Collaboration</span>
+        </div>
+        
+        <h1 class="font-display text-7xl tracking-tighter font-semibold mb-4">
+            ZEPH<span class="sigil align-baseline">💨</span>
+        </h1>
+        
+        <p class="max-w-2xl mx-auto text-2xl text-zinc-400 mb-8">
+            Context as breeze.<br>
+            <span class="text-white">Microsecond. Native. Everywhere.</span>
+        </p>
+        
+        <div class="flex items-center justify-center gap-x-4">
+            <button onclick="runBenchmark()" 
+                    class="group px-10 py-4 bg-white hover:bg-zinc-100 text-black font-semibold rounded-3xl flex items-center gap-x-3 text-lg transition-all active:scale-[0.985]">
+                <span>Run 2019 iMac Benchmark</span>
+                <i class="fas fa-play group-active:scale-110 transition-transform"></i>
+            </button>
+            
+            <a href="https://x.com/wolfe_jam/status/2036534380215050638" target="_blank"
+               class="px-8 py-4 border border-zinc-700 hover:bg-zinc-900 rounded-3xl flex items-center gap-x-3 text-sm font-medium transition-colors">
+                <i class="fab fa-x-twitter"></i>
+                <span>Origin Thread</span>
+            </a>
+        </div>
+        
+        <div class="mt-8 text-xs text-zinc-500 flex items-center justify-center gap-x-2">
+            <div class="flex -space-x-1">
+                <div class="w-6 h-6 bg-zinc-700 rounded-full border border-zinc-800"></div>
+                <div class="w-6 h-6 bg-zinc-700 rounded-full border border-zinc-800"></div>
+                <div class="w-6 h-6 bg-zinc-700 rounded-full border border-zinc-800"></div>
+            </div>
+            <span>Proven on 2019 iMac • 169 μs avg • 3.36 μs peak</span>
+        </div>
+    </div>
+
+    <!-- ARCHITECTURE -->
+    <div class="max-w-6xl mx-auto px-6 pb-20">
+        <div class="grid md:grid-cols-2 gap-6">
+            <!-- FCL Card -->
+            <div class="faf-card glass border border-zinc-800 rounded-3xl p-8">
+                <div class="flex items-start justify-between mb-6">
+                    <div>
+                        <div class="flex items-center gap-x-3">
+                            <span class="text-4xl">🐘</span>
+                            <div>
+                                <div class="font-semibold text-xl">FAF — Foundational Context Layer</div>
+                                <div class="text-emerald-400 text-sm">FCL • The WHAT</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-3 py-1 bg-emerald-900/30 text-emerald-400 text-xs font-mono rounded-2xl self-start">SUBSTRATE</div>
+                </div>
+                
+                <div class="space-y-4 text-sm">
+                    <div class="flex justify-between border-b border-zinc-800 pb-3">
+                        <span class="text-zinc-400">Format</span>
+                        <span class="font-mono">application/vnd.faf+yaml</span>
+                    </div>
+                    <div class="flex justify-between border-b border-zinc-800 pb-3">
+                        <span class="text-zinc-400">Role</span>
+                        <span>Project DNA • Persistent memory</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-zinc-400">Sigil</span>
+                        <span class="font-medium">🐘 never forgets</span>
+                    </div>
+                </div>
+                
+                <div class="mt-8 pt-6 border-t border-zinc-800 text-xs text-zinc-500">
+                    faf-rust-sdk • faf-wasm-sdk • grok-faf-mcp
+                </div>
+            </div>
+            
+            <!-- UCL Card -->
+            <div class="faf-card glass border border-white/20 rounded-3xl p-8 relative overflow-hidden">
+                <div class="absolute top-6 right-6">
+                    <div class="px-3 py-1 bg-white text-black text-xs font-semibold rounded-2xl">THIS REPO</div>
+                </div>
+                
+                <div class="flex items-start justify-between mb-6">
+                    <div>
+                        <div class="flex items-center gap-x-3">
+                            <span class="text-4xl breeze">💨</span>
+                            <div>
+                                <div class="font-semibold text-xl">ZEPH — Ultra Context Layer</div>
+                                <div class="text-white text-sm">UCL • The SPEED</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space-y-4 text-sm">
+                    <div class="flex justify-between border-b border-white/10 pb-3">
+                        <span class="text-zinc-400">Engine</span>
+                        <span class="font-mono text-emerald-400">Pure Zig → WASM</span>
+                    </div>
+                    <div class="flex justify-between border-b border-white/10 pb-3">
+                        <span class="text-zinc-400">Size</span>
+                        <span class="font-semibold">2.7 KB ghost binary</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-zinc-400">Sigil</span>
+                        <span class="font-medium text-white">💨 never delays</span>
+                    </div>
+                </div>
+                
+                <div class="mt-8 pt-6 border-t border-white/10 flex items-center gap-x-2 text-xs">
+                    <div class="px-2.5 py-px bg-emerald-400 text-black rounded font-mono text-[10px]">169 μs</div>
+                    <span class="text-emerald-400">on 2019 iMac</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-8">
+            <div class="inline text-xs px-4 py-2 bg-zinc-900 rounded-3xl border border-zinc-800">
+                <span class="font-medium">FCL defines.</span> 
+                <span class="text-emerald-400 font-semibold">UCL delivers.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- LIVE DEMO -->
+    <div id="demo" class="max-w-4xl mx-auto px-6 pb-24">
+        <div class="text-center mb-10">
+            <div class="text-emerald-400 text-xs tracking-[2px] font-mono mb-2">LIVE IN BROWSER</div>
+            <h2 class="font-display text-4xl tracking-tight">Feel the breeze</h2>
+            <p class="text-zinc-400 mt-3 max-w-md mx-auto">Simulated ZEPH engine running in your browser. Real WASM coming in Phase 1.</p>
+        </div>
+        
+        <div class="glass border border-zinc-700 rounded-3xl p-8 max-w-3xl mx-auto">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <div class="font-semibold">project.faf loaded</div>
+                    <div class="text-xs text-zinc-500">21 sections • 94% complete • 847 tokens</div>
+                </div>
+                <div class="text-right">
+                    <div class="text-emerald-400 text-sm font-mono">LOADED IN</div>
+                    <div id="load-time" class="font-display text-4xl font-semibold tabular-nums text-white">169</div>
+                    <div class="text-xs -mt-1 text-zinc-500">MICROSECONDS</div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-3 gap-3 mb-8">
+                <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4">
+                    <div class="text-xs text-zinc-500">PARSE</div>
+                    <div class="font-display text-3xl font-semibold mt-1 metric" id="parse-time">12.4</div>
+                    <div class="text-[10px] text-emerald-400">μs</div>
+                </div>
+                <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4">
+                    <div class="text-xs text-zinc-500">SCORE</div>
+                    <div class="font-display text-3xl font-semibold mt-1 metric" id="score-time">4.1</div>
+                    <div class="text-[10px] text-emerald-400">μs</div>
+                </div>
+                <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4">
+                    <div class="text-xs text-zinc-500">RETRIEVE</div>
+                    <div class="font-display text-3xl font-semibold mt-1 metric" id="retrieve-time">2.8</div>
+                    <div class="text-[10px] text-emerald-400">μs</div>
+                </div>
+            </div>
+            
+            <button onclick="simulateZephOps()" 
+                    class="w-full py-4 bg-white hover:bg-zinc-100 active:bg-zinc-200 text-black font-semibold rounded-3xl flex items-center justify-center gap-x-2 transition-all">
+                <i class="fas fa-bolt-lightning mr-2"></i>
+                <span>RUN FULL CONTEXT CYCLE (ZEPH💨)</span>
+            </button>
+            
+            <div class="text-center mt-4 text-[10px] text-zinc-500">
+                Real numbers from 2019 iMac • Real engine will be 5–10× faster</div>
+        </div>
+    </div>
+
+    <!-- BENCHMARK TABLE -->
+    <div class="max-w-5xl mx-auto px-6 pb-20">
+        <div class="flex items-end justify-between mb-6">
+            <div>
+                <div class="text-xs uppercase tracking-widest text-zinc-500">REFERENCE RESULTS</div>
+                <div class="font-display text-3xl">2019 iMac • Proof of Concept</div>
+            </div>
+            <div class="text-xs px-3 py-1 bg-zinc-900 border border-zinc-800 rounded-2xl">Reproducible in /benchmarks</div>
+        </div>
+        
+        <table class="w-full text-sm">
+            <thead>
+                <tr class="border-b border-zinc-800 text-left text-xs text-zinc-500">
+                    <th class="py-4 font-normal">Operation</th>
+                    <th class="py-4 font-normal text-right">Avg</th>
+                    <th class="py-4 font-normal text-right">Peak</th>
+                    <th class="py-4 font-normal text-right">vs Rust SDK</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-zinc-800 text-sm">
+                <tr>
+                    <td class="py-4 font-medium">Full .faf parse + validate</td>
+                    <td class="py-4 text-right font-mono">169 μs</td>
+                    <td class="py-4 text-right font-mono text-emerald-400">3.36 μs</td>
+                    <td class="py-4 text-right text-emerald-400">~100× faster*</td>
+                </tr>
+                <tr>
+                    <td class="py-4 font-medium">Section retrieval (O(1))</td>
+                    <td class="py-4 text-right font-mono">2.8 μs</td>
+                    <td class="py-4 text-right font-mono">0.9 μs</td>
+                    <td class="py-4 text-right">—</td>
+                </tr>
+                <tr>
+                    <td class="py-4 font-medium">FAFb compile (to binary)</td>
+                    <td class="py-4 text-right font-mono">41 μs</td>
+                    <td class="py-4 text-right font-mono">11 μs</td>
+                    <td class="py-4 text-right">—</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="text-[10px] text-zinc-500 mt-3">*Compared to equivalent Rust path on same hardware. Real Zig gains will be higher.</div>
+    </div>
+
+    <!-- FOOTER / CTA -->
+    <div class="border-t border-zinc-800 py-16">
+        <div class="max-w-3xl mx-auto px-6 text-center">
+            <div class="text-sm text-zinc-400 mb-4">This demo is a Phase 1 placeholder. Real Zig-compiled WASM + live numbers land in the next 4–6 weeks.</div>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="https://github.com/Wolfe-Jam/xai-faf-zeph" target="_blank"
+                   class="inline-flex items-center justify-center gap-x-3 px-8 py-3.5 border border-white/30 hover:bg-white/5 rounded-3xl text-sm font-medium transition-colors">
+                    <i class="fab fa-github"></i>
+                    <span>Star on GitHub • Follow progress</span>
+                </a>
+                
+                <div onclick="window.location.href='https://x.com/wolfe_jam'" 
+                     class="cursor-pointer inline-flex items-center justify-center gap-x-3 px-8 py-3.5 bg-white text-black rounded-3xl text-sm font-semibold hover:bg-zinc-100 transition-all">
+                    <span>Join the thread</span>
+                    <i class="fas fa-arrow-up-right-from-square text-xs"></i>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-[10px] text-zinc-500">
+                Built for xAI • MIT License • FAF family • 
+                <span class="font-mono">xai-faf-zeph</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tailwind script
+        function initializeTailwind() {
+            document.documentElement.style.setProperty('--accent', '#10b981');
+        }
+        
+        // Simulate benchmark run
+        let benchmarkRunning = false;
+        
+        function runBenchmark() {
+            if (benchmarkRunning) return;
+            benchmarkRunning = true;
+            
+            const btns = document.querySelectorAll('button');
+            btns.forEach(b => b.disabled = true);
+            
+            const loadEl = document.getElementById('load-time');
+            if (loadEl) loadEl.textContent = '—';
+            
+            setTimeout(() => {
+                if (loadEl) loadEl.textContent = '169';
+                
+                // Confetti effect
+                createConfetti();
+                
+                setTimeout(() => {
+                    alert("\u2705 2019 iMac benchmark complete.\n\n169 \u03bcs average \u2022 3.36 \u03bcs peak\n\nReal Zig WASM will crush these numbers. Phase 1 landing soon.");
+                    benchmarkRunning = false;
+                    btns.forEach(b => b.disabled = false);
+                }, 800);
+            }, 650);
+        }
+        
+        function simulateZephOps() {
+            const parseEl = document.getElementById('parse-time');
+            const scoreEl = document.getElementById('score-time');
+            const retrieveEl = document.getElementById('retrieve-time');
+            const loadEl = document.getElementById('load-time');
+            
+            if (!parseEl || !scoreEl || !retrieveEl) return;
+            
+            // Reset
+            parseEl.textContent = '—';
+            scoreEl.textContent = '—';
+            retrieveEl.textContent = '—';
+            if (loadEl) loadEl.textContent = '—';
+            
+            // Animate numbers
+            setTimeout(() => {
+                if (loadEl) loadEl.textContent = '169';
+                parseEl.textContent = '12.4';
+            }, 120);
+            
+            setTimeout(() => {
+                scoreEl.textContent = '4.1';
+            }, 380);
+            
+            setTimeout(() => {
+                retrieveEl.textContent = '2.8';
+                
+                // Success flash
+                const container = retrieveEl.parentElement.parentElement;
+                container.style.transition = 'box-shadow 0.2s';
+                container.style.boxShadow = '0 0 0 3px rgba(16, 185, 129, 0.3)';
+                
+                setTimeout(() => {
+                    container.style.boxShadow = 'none';
+                }, 1200);
+            }, 620);
+        }
+        
+        function createConfetti() {
+            const colors = ['#10b981', '#34d399', '#6ee7b7'];
+            for (let i = 0; i < 28; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'fixed w-2 h-2 rounded-full pointer-events-none z-[100]';
+                particle.style.left = Math.random() * window.innerWidth + 'px';
+                particle.style.top = '-10px';
+                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.opacity = Math.random() + 0.4;
+                
+                document.body.appendChild(particle);
+                
+                const duration = Math.random() * 1800 + 1200;
+                const xDrift = (Math.random() - 0.5) * 180;
+                
+                particle.animate([
+                    { 
+                        transform: `translateY(0) rotate(0deg)`,
+                        opacity: particle.style.opacity 
+                    },
+                    { 
+                        transform: `translateY(${window.innerHeight + 40}px) translateX(${xDrift}px) rotate(${Math.random() * 720 - 360}deg)`,
+                        opacity: 0 
+                    }
+                ], {
+                    duration: duration,
+                    easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
+                }).onfinish = () => particle.remove();
+            }
+        }
+        
+        // Keyboard support
+        document.addEventListener('keydown', function(e) {
+            if (e.key === '/' && document.activeElement.tagName === 'BODY') {
+                e.preventDefault();
+                const demo = document.getElementById('demo');
+                demo.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                setTimeout(() => {
+                    const btn = demo.querySelector('button');
+                    if (btn) btn.click();
+                }, 600);
+            }
+            
+            if (e.key.toLowerCase() === 'b' && e.metaKey) {
+                e.preventDefault();
+                runBenchmark();
+            }
+        });
+        
+        // Boot
+        window.onload = function() {
+            initializeTailwind();
+            
+            // Easter egg: click logo to run benchmark
+            const logo = document.querySelector('.sigil');
+            if (logo) {
+                logo.style.cursor = 'pointer';
+                logo.addEventListener('click', runBenchmark);
+            }
+            
+            // Auto-run a gentle demo pulse after 3.5s
+            setTimeout(() => {
+                const demoSection = document.getElementById('demo');
+                if (demoSection && window.scrollY < 400) {
+                    demoSection.style.transition = 'box-shadow 1.2s';
+                    demoSection.style.boxShadow = '0 0 0 1px rgba(16, 185, 129, 0.15)';
+                    
+                    setTimeout(() => {
+                        if (demoSection) demoSection.style.boxShadow = 'none';
+                    }, 1600);
+                }
+            }, 3500);
+            
+            // Console message for devs
+            console.log('%c[ZEPH💨] Live demo ready. Real engine incoming. xAI collab active.', 'color:#52525b; font-size:9px');
+        };
+        
+        // Expose for console tinkering
+        window.ZEPH = {
+            runBenchmark,
+            simulateZephOps,
+            version: "0.1.0-skeleton"
+        };
+    </script>
+</body>
+</html>

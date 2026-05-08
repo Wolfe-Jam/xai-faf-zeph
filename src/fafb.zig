@@ -87,10 +87,36 @@ pub fn parseStringTable(data: []const u8, header: Header) !StringTable {
 
 pub fn buildSectionTable(data: []const u8, header: Header) !SectionTable {
     const section_start = @sizeOf(Header);
-    const section_bytes = data[section_start .. section_start + (header.section_count * @sizeOf(SectionEntry))];
+    const section_end = section_start + (@as(usize, header.section_count) * @sizeOf(SectionEntry));
+    if (section_end > data.len) return error.TruncatedSectionTable;
+    const section_bytes = data[section_start..section_end];
     const entries = std.mem.bytesAsSlice(SectionEntry, section_bytes);
     const st = try parseStringTable(data, header);
     return SectionTable{ .entries = entries, .string_table = st };
+}
+
+test "BRAKE: buildSectionTable rejects truncated section data" {
+    var truncated: [32]u8 = undefined;
+    @memcpy(&truncated, "FAFB\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00");
+    try std.testing.expectError(error.TruncatedSectionTable, buildSectionTable(&truncated, Header{ .magic = [_]u8{ 'F', 'A', 'F', 'B' }, .version = 1, .section_count = 1, .string_table_offset = 0, .string_table_size = 0, .flags = 0, .crc32 = 0, ._reserved = [_]u8{0} ** 8 }));
+}
+
+test "ENGINE: SectionTable.findByName returns matching entry" {
+    const table_bytes = [_]u8{ 0x03, 'D', 'N', 'A', 0x00 };
+    const st = StringTable.init(&table_bytes);
+    const entries = [_]SectionEntry{
+        .{ .name_offset = 0, .priority = 1, .classification = .DNA, .offset = 0, .length = 0, .token_count = 0, ._pad = 0 },
+    };
+    const table = SectionTable{ .entries = &entries, .string_table = st };
+    const found = table.findByName("DNA");
+    try std.testing.expect(found != null);
+    try std.testing.expectEqual(@as(u32, 0), found.?.name_offset);
+}
+
+test "ENGINE: SectionTable.findByName returns null on miss" {
+    const st = StringTable.init("");
+    const table = SectionTable{ .entries = &[_]SectionEntry{}, .string_table = st };
+    try std.testing.expectEqual(@as(?SectionEntry, null), table.findByName("MISSING"));
 }
 
 // Section lookup by name (O(1) via string table)

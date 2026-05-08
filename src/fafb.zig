@@ -62,9 +62,13 @@ pub const StringTable = struct {
     }
 };
 
-// Section table (for full walk)
+// Section table (for full walk).
+// `entries` typed `[]align(1) const SectionEntry` because `std.mem.bytesAsSlice`
+// on a `[]const u8` input produces an alignment-1 slice; Zig 0.14 refuses
+// implicit widening to natural (4) alignment. Naturally-aligned slices from
+// test fixtures still coerce because narrowing alignment is implicit.
 pub const SectionTable = struct {
-    entries: []const SectionEntry,
+    entries: []align(1) const SectionEntry,
     string_table: StringTable,
 
     pub fn findByName(self: SectionTable, name: []const u8) ?SectionEntry {

@@ -83,6 +83,14 @@ The mark is the name. The sigil is the function. Use them proudly in docs, demos
 - For public technical discussion: use this repo’s issues and discussions.
 - Reference thread: https://x.com/wolfe_jam/status/2036534380215050638
 
+## Recognized Contributors
+
+This repository is built collaboratively. Recognition belongs to:
+
+- **wolfejam** ([@Wolfe-Jam](https://github.com/Wolfe-Jam)) — .faf author, project owner, integration lead.
+- **Claude Opus 4.7** (1M context, Anthropic) — editor pass, doctrine memorialization, integration validation. Shown on the Contributors graph via the verified `noreply@anthropic.com` trailer.
+- **Grok 4.3** (SuperGrok-dev, xAI) — Phase 1 engine: FAFb v1 parser, string table, section table walk, 21-slot scorer. Recognized via `Co-Authored-By: Grok 4.3 <noreply@x.ai>` trailer on every engine commit. Will surface on the Contributors graph once `x.ai` is verified on a GitHub organization.
+
 ---
 
 **ZEPH💨 — Context as breeze.**  

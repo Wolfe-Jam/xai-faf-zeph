@@ -4,7 +4,7 @@
 
 This roadmap is living. xAI priorities override everything. Phases are measurable and shippable.
 
-## Phase 1 — MVP (Target: 4–6 weeks from May 2026)
+## Phase 1 — MVP
 
 **Goal**: Functional parity with faf-rust-sdk v2 + microsecond-class performance on reference hardware. Public repo that the xAI team can immediately evaluate and extend.
 
@@ -23,14 +23,15 @@ This roadmap is living. xAI priorities override everything. Phases are measurabl
 - xAI team can load a real `.faf` file and see sub-millisecond results
 - No regressions vs faf-wasm-sdk v2 on compatibility
 
-**Status**: Scoping complete. Skeleton + drafts landing now.
+**Status**: Scoping accepted. Engine in main, real WASM live in browser, demo on two URLs.
 
-## Phase 2 — Production-grade (Target: 8–12 weeks)
+## Phase 2 — Production-grade
 
 **Goal**: The engine xAI can ship inside Grok paths and recommend to frontier agents.
 
-**Deliverables**
-- < 5 μs avg / < 1 μs peak on modern hardware; sub-500 ns on high-end
+**Deliverables** (per `PHASE2_TARGETS.md`)
+- < 5 μs avg / < 1 μs peak on high-end hardware (M4 / EPYC)
+- Sub-1 μs avg / sub-500 ns peak on Colossus-class hardware (moonshot)
 - Hierarchical long-context support (100 k–1 M token `.faf` files)
 - Integrated prototype inside `grok-faf-mcp` (or successor)
 - End-to-end agent loop benchmarks showing measurable latency reduction

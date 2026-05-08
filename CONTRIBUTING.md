@@ -23,16 +23,17 @@ This repository is the **ongoing public collaboration channel** between the .faf
 
 ## Development setup
 
+Zig 0.16+ required (`build.zig` uses the post-0.15 `addLibrary` / `createModule` API).
+
 ```bash
-zig version 0.14+ required
-zig build          # builds native + WASM
-zig build test     # full suite
-zig build benchmark -- 2019-imac   # reproduces the 169 μs numbers
+zig build           # builds native lib + WASM (zig-out/bin/zeph.wasm)
+zig build test      # full WJTTC suite
+zig build benchmark # skeleton harness (real perf harness lands in Phase 2)
 ```
 
-WASM target:
+WASM size optimization (post-build):
 ```bash
-zig build -Dtarget=wasm32-freestanding
+wasm-opt -Oz --strip-debug zig-out/bin/zeph.wasm -o docs/zeph.wasm
 ```
 
 ## Issue labels (use them)

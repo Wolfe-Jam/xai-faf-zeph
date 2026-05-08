@@ -241,7 +241,7 @@
                 <div class="text-right">
                     <div class="text-emerald-400 text-sm font-mono">LOADED IN</div>
                     <div id="load-time" class="font-display text-4xl font-semibold tabular-nums text-white">169</div>
-                    <div class="text-xs -mt-1 text-zinc-200">MICROSECONDS</div>
+                    <div id="load-unit" class="text-xs -mt-1 text-zinc-200">MICROSECONDS</div>
                 </div>
             </div>
 
@@ -316,13 +316,44 @@ cd xai-faf-zeph &amp;&amp; zig build benchmark</code></pre>
             }, 650);
         }
         
-        function simulateZephOps() {
+        // Real WASM module — loaded once, cached.
+        let zephModule = null;
+        async function loadZephWasm() {
+            if (zephModule) return zephModule;
+            const response = await fetch('zeph.wasm');
+            const buffer = await response.arrayBuffer();
+            const { instance } = await WebAssembly.instantiate(buffer);
+            zephModule = instance.exports;
+            return zephModule;
+        }
+
+        async function simulateZephOps() {
             const loadEl = document.getElementById('load-time');
+            const unitEl = document.getElementById('load-unit');
             if (!loadEl) return;
 
             loadEl.textContent = '—';
-            setTimeout(() => {
-                loadEl.textContent = '169';
+
+            try {
+                const zeph = await loadZephWasm();
+
+                // Warm up — JIT, branch predictor, cache.
+                for (let i = 0; i < 100000; i++) zeph.zeph_version();
+
+                // Real measurement — 1M ABI roundtrips.
+                const iterations = 1_000_000;
+                const t0 = performance.now();
+                for (let i = 0; i < iterations; i++) {
+                    zeph.zeph_version();
+                }
+                const t1 = performance.now();
+
+                const nsPerCall = ((t1 - t0) * 1_000_000) / iterations;
+                // Display as fractional microseconds (e.g., "0.07")
+                loadEl.textContent = nsPerCall < 1000
+                    ? (nsPerCall / 1000).toFixed(3)
+                    : (nsPerCall / 1000).toFixed(2);
+                if (unitEl) unitEl.textContent = 'μs / call · live in your browser';
 
                 const card = loadEl.closest('.glass');
                 if (card) {
@@ -331,7 +362,10 @@ cd xai-faf-zeph &amp;&amp; zig build benchmark</code></pre>
                     setTimeout(() => { card.style.boxShadow = 'none'; }, 1200);
                 }
                 createConfetti();
-            }, 600);
+            } catch (err) {
+                loadEl.textContent = 'err';
+                console.error('[ZEPH] WASM load/run failed:', err);
+            }
         }
         
         function createConfetti() {

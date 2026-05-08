@@ -1,8 +1,9 @@
 // ZEPH💨 — Ultra Context Layer (UCL)
 // Pure Zig → WASM microsecond context engine for .faf / FAFb
-// Status: Phase 1 skeleton — parser stub + WASM exports
+// Phase 1: real FAFb v1 parser + WJTTC tier convention
 
 const std = @import("std");
+const fafb = @import("fafb.zig");
 
 // Public WASM exports — also importable from Zig consumers (`pub`).
 pub export fn zeph_version() u32 {
@@ -10,11 +11,9 @@ pub export fn zeph_version() u32 {
 }
 
 pub export fn zeph_load_context(ptr: [*]const u8, len: usize) u32 {
-    // TODO: real parser
-    // For now: return fake score (94%)
-    _ = ptr;
-    _ = len;
-    return 94;
+    const data = ptr[0..len];
+    if (!fafb.isValidMagic(data)) return 0;
+    return 94; // placeholder until full scorer
 }
 
 pub export fn zeph_get_section(name_ptr: [*]const u8, name_len: usize) u32 {
@@ -24,26 +23,9 @@ pub export fn zeph_get_section(name_ptr: [*]const u8, name_len: usize) u32 {
     return 0; // placeholder offset
 }
 
-// Minimal FAFb header parser stub (will become full in Phase 1)
-// extern struct: C-ABI layout, supports [N]u8 fields — correct for binary headers.
-pub const FafbHeader = extern struct {
-    magic: [4]u8,      // "FAFB"
-    version: u16,
-    flags: u16,
-    crc32: u32,
-    // ... full 32-byte header coming soon
-};
-
-pub fn parse_fafb(data: []const u8) !FafbHeader {
-    if (data.len < 32) return error.TooShort;
-    // TODO: real validation + string table
-    return FafbHeader{
-        .magic = [_]u8{ 'F', 'A', 'F', 'B' },
-        .version = 1,
-        .flags = 0,
-        .crc32 = 0,
-    };
-}
+// Re-export for module consumers
+pub const FafbHeader = fafb.Header;
+pub const parse_fafb = fafb.parseHeader;
 
 // High-level context API (future)
 pub const Context = struct {
@@ -67,8 +49,47 @@ test "BRAKE: zeph_version returns u32 ABI version" {
     try std.testing.expectEqual(@as(u32, 1), zeph_version());
 }
 
-test "ENGINE: parse_fafb recognizes FAFB magic bytes" {
-    const data = "FAFB\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00";
-    const header = try parse_fafb(data);
+test "BRAKE: rejects too-short input" {
+    const short = "FAF";
+    try std.testing.expect(!fafb.isValidMagic(short));
+}
+
+test "BRAKE: rejects bad magic" {
+    const bad = "XXXX\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00";
+    try std.testing.expect(!fafb.isValidMagic(bad));
+}
+
+test "ENGINE: parseHeader returns valid v1 header" {
+    // 32-byte FAFb v1 header. Version field is u16 native-endian; on x86/ARM that's LE,
+    // so version=1 → bytes "\x01\x00".
+    const data align(@alignOf(fafb.Header)) = [_]u8{
+        'F', 'A', 'F', 'B',     // magic (4)
+        0x01, 0x00,             // version u16 LE = 1 (2)
+        0x00, 0x00,             // flags (2)
+        0x00, 0x00, 0x00, 0x00, // crc32 (4)
+        0x00, 0x00,             // section_count (2)
+        0x00, 0x00,             // pad to align u32 (2)
+        0x00, 0x00, 0x00, 0x00, // string_table_offset (4)
+        0x00, 0x00, 0x00, 0x00, // string_table_size (4)
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, // _reserved (8)
+    };
+    const header = try fafb.parseHeader(&data);
+    try std.testing.expectEqualSlices(u8, "FAFB", &header.magic);
+    try std.testing.expectEqual(@as(u16, 1), header.version);
+}
+
+test "ENGINE: parse_fafb recognizes FAFB magic bytes via re-export" {
+    const data align(@alignOf(fafb.Header)) = [_]u8{
+        'F', 'A', 'F', 'B',
+        0x01, 0x00,
+        0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00,
+        0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    };
+    const header = try parse_fafb(&data);
     try std.testing.expectEqualSlices(u8, "FAFB", &header.magic);
 }

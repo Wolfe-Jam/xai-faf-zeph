@@ -24,7 +24,7 @@ ZEPH makes it **native everywhere** — browser, edge, Node, Bun, and (soon) Col
 
 ZEPH completes the picture as the **ultra-low-latency path**.
 
-**Live demo:** https://wolfe-jam.github.io/xai-faf-zeph/
+**Live demo:** https://xai-faf-zeph.vercel.app/ · https://wolfe-jam.github.io/xai-faf-zeph/
 
 ## Quickstart (30 seconds)
 
@@ -80,7 +80,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) and [ROADMAP.md](ROADMAP.md).
 - [ ] Full parser + FAFb round-trip
 - [ ] < 200 μs on 2019 iMac
 - [ ] Public WASM + npm package
-- [x] Live browser demo — https://wolfe-jam.github.io/xai-faf-zeph/
+- [x] Live browser demo — Vercel + GH Pages
 
 ## License
 

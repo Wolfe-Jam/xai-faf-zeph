@@ -14,7 +14,7 @@ This roadmap is living. xAI priorities override everything. Phases are measurabl
 - Reproducible 169 μs avg / 3.36 μs peak on 2019 iMac (matching the existing measurement)
 - 100% FAFb round-trip + conformance tests
 - npm package `faf-zeph` (or `@xai/faf-zeph`) with zero-config JS bindings
-- Live browser demo (this repo’s `/examples/browser-demo`)
+- Live browser demo (this repo’s `/docs`, served via GitHub Pages → Vercel mirror → `zeph.faf.one` final)
 - CI that runs benchmarks on every push
 - Initial docs + API surface
 

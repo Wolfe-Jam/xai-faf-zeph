@@ -62,6 +62,22 @@ pub const StringTable = struct {
     }
 };
 
+// Section table (for full walk)
+pub const SectionTable = struct {
+    entries: []const SectionEntry,
+    string_table: StringTable,
+
+    pub fn findByName(self: SectionTable, name: []const u8) ?SectionEntry {
+        for (self.entries) |entry| {
+            const entry_name = self.string_table.get(entry.name_offset);
+            if (std.mem.eql(u8, entry_name, name)) {
+                return entry;
+            }
+        }
+        return null;
+    }
+};
+
 pub fn parseStringTable(data: []const u8, header: Header) !StringTable {
     const start = header.string_table_offset;
     const end = start + header.string_table_size;
@@ -69,11 +85,18 @@ pub fn parseStringTable(data: []const u8, header: Header) !StringTable {
     return StringTable.init(data[start..end]);
 }
 
+pub fn buildSectionTable(data: []const u8, header: Header) !SectionTable {
+    const section_start = @sizeOf(Header);
+    const section_bytes = data[section_start .. section_start + (header.section_count * @sizeOf(SectionEntry))];
+    const entries = std.mem.bytesAsSlice(SectionEntry, section_bytes);
+    const st = try parseStringTable(data, header);
+    return SectionTable{ .entries = entries, .string_table = st };
+}
+
 // Section lookup by name (O(1) via string table)
 pub fn findSectionByName(data: []const u8, header: Header, name: []const u8) ?SectionEntry {
-    // Placeholder — full table walk + hash in next micro-commit
-    _ = data; _ = header; _ = name;
-    return null;
+    const table = buildSectionTable(data, header) catch return null;
+    return table.findByName(name);
 }
 
 test "BRAKE: StringTable rejects out-of-bounds offset" {

@@ -123,6 +123,73 @@ test "ENGINE: SectionTable.findByName returns null on miss" {
     try std.testing.expectEqual(@as(?SectionEntry, null), table.findByName("MISSING"));
 }
 
+// 21-slot scorer (v1)
+pub const Score = struct {
+    total: u8,
+    populated: u8,
+    empty: u8,
+};
+
+pub fn scoreContext(data: []const u8, header: Header) Score {
+    var populated: u8 = 0;
+    var empty: u8 = 0;
+
+    const table = buildSectionTable(data, header) catch return .{ .total = 21, .populated = 0, .empty = 21 };
+
+    for (table.entries) |entry| {
+        if (entry.length > 0 and entry.token_count > 0) {
+            populated += 1;
+        } else {
+            empty += 1;
+        }
+    }
+
+    return .{ .total = 21, .populated = populated, .empty = empty };
+}
+
+test "BRAKE: scoreContext handles empty section table" {
+    const header = Header{
+        .magic = [_]u8{ 'F', 'A', 'F', 'B' },
+        .version = 1,
+        .flags = 0,
+        .crc32 = 0,
+        .section_count = 0,
+        .string_table_offset = 0,
+        .string_table_size = 0,
+        ._reserved = [_]u8{0} ** 8,
+    };
+    const score = scoreContext(&[_]u8{}, header);
+    try std.testing.expectEqual(@as(u8, 21), score.total);
+    try std.testing.expectEqual(@as(u8, 0), score.populated);
+    try std.testing.expectEqual(@as(u8, 21), score.empty);
+}
+
+test "ENGINE: scoreContext counts populated vs empty sections" {
+    const data = [_]u8{
+        // Header (32 bytes)
+        'F', 'A', 'F', 'B', 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        // Section 0 (20 bytes — populated)
+        0x00, 0x00, 0x00, 0x00, 1, 0, 0, 0, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x05, 0x00, 0x00, 0x00,
+        // Section 1 (20 bytes — empty)
+        0x03, 0x00, 0x00, 0x00, 0, 0, 0, 0, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    };
+    const header = Header{
+        .magic = [_]u8{ 'F', 'A', 'F', 'B' },
+        .version = 1,
+        .flags = 0,
+        .crc32 = 0,
+        .section_count = 2,
+        .string_table_offset = 0,
+        .string_table_size = 0,
+        ._reserved = [_]u8{0} ** 8,
+    };
+    const score = scoreContext(&data, header);
+    try std.testing.expectEqual(@as(u8, 21), score.total);
+    try std.testing.expectEqual(@as(u8, 1), score.populated);
+    try std.testing.expectEqual(@as(u8, 1), score.empty);
+}
+
 // Section lookup by name (O(1) via string table)
 pub fn findSectionByName(data: []const u8, header: Header, name: []const u8) ?SectionEntry {
     const table = buildSectionTable(data, header) catch return null;

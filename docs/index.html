@@ -121,21 +121,21 @@
         </p>
         
         <div class="flex items-center justify-center gap-x-4">
-            <button onclick="runBenchmark()" 
+            <a href="#demo"
                     class="group px-10 py-4 bg-white hover:bg-zinc-100 text-black font-semibold rounded-3xl flex items-center gap-x-3 text-lg transition-all active:scale-[0.985]">
-                <span>Run 2019 iMac Benchmark</span>
+                <span>Run cascade in your browser</span>
                 <i class="fas fa-play group-active:scale-110 transition-transform"></i>
-            </button>
-            
+            </a>
+
             <a href="https://x.com/wolfe_jam/status/2036534380215050638" target="_blank"
                class="px-8 py-4 border border-zinc-700 hover:bg-zinc-900 rounded-3xl flex items-center gap-x-3 text-sm font-medium transition-colors">
                 <i class="fab fa-x-twitter"></i>
                 <span>Origin Thread</span>
             </a>
         </div>
-        
+
         <div class="mt-8 text-xs text-white flex items-center justify-center">
-            <span>Proven on 2019 iMac • 169 μs avg • 3.36 μs peak</span>
+            <span>Native baseline · 2019 iMac · score 683 ns · validate 5.8 ns · tier 2.64 ns</span>
         </div>
     </div>
 
@@ -201,18 +201,22 @@
                         <span class="font-mono text-emerald-400">Pure Zig → WASM</span>
                     </div>
                     <div class="flex justify-between border-b border-white/10 pb-3">
-                        <span class="text-zinc-200">Size</span>
-                        <span class="font-semibold">2.7 KB ghost binary</span>
+                        <span class="text-zinc-200">Artifact</span>
+                        <span class="font-semibold">2.4 KB cascade.wasm</span>
+                    </div>
+                    <div class="flex justify-between border-b border-white/10 pb-3">
+                        <span class="text-zinc-200">Packets</span>
+                        <span class="font-mono text-zinc-200">score · validate · tier</span>
                     </div>
                     <div class="flex justify-between">
                         <span class="text-zinc-200">Sigil</span>
                         <span class="font-medium text-white">💨 never delays</span>
                     </div>
                 </div>
-                
+
                 <div class="mt-8 pt-6 border-t border-white/10 flex items-center gap-x-2 text-xs">
-                    <div class="px-2.5 py-px bg-emerald-400 text-black rounded font-mono text-[10px]">169 μs</div>
-                    <span class="text-emerald-400">on 2019 iMac</span>
+                    <div class="px-2.5 py-px bg-emerald-400 text-black rounded font-mono text-[10px]">5.8 ns</div>
+                    <span class="text-emerald-400">native validate · 2019 iMac</span>
                 </div>
             </div>
         </div>
@@ -233,23 +237,42 @@
         </div>
 
         <div class="glass border border-zinc-700 rounded-3xl p-8 max-w-3xl mx-auto">
-            <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center justify-between mb-6">
                 <div>
-                    <div class="font-semibold">project.faf loaded</div>
-                    <div class="text-xs text-zinc-200">21 sections • 847 tokens</div>
+                    <div class="font-semibold">cascade.wasm loaded</div>
+                    <div id="wasm-meta" class="text-xs text-zinc-200">2,358 bytes · three packets</div>
                 </div>
-                <div class="text-right">
-                    <div class="text-emerald-400 text-sm font-mono">LOADED IN</div>
-                    <div id="load-time" class="font-display text-4xl font-semibold tabular-nums text-white">169</div>
-                    <div id="load-unit" class="text-xs -mt-1 text-zinc-200">MICROSECONDS</div>
+                <div id="status" class="text-emerald-400 text-xs font-mono">READY</div>
+            </div>
+
+            <!-- Live packet metrics — populated by runCascade() -->
+            <div class="grid grid-cols-3 gap-3 mb-6 text-center">
+                <div class="border border-zinc-700 rounded-2xl py-4">
+                    <div class="text-emerald-400 text-[10px] font-mono tracking-[2px]">SCORE</div>
+                    <div id="m-score" class="font-display text-2xl font-semibold tabular-nums text-white mt-1">—</div>
+                    <div id="m-score-unit" class="text-[10px] text-zinc-200">ns / call</div>
+                </div>
+                <div class="border border-zinc-700 rounded-2xl py-4">
+                    <div class="text-emerald-400 text-[10px] font-mono tracking-[2px]">VALIDATE</div>
+                    <div id="m-validate" class="font-display text-2xl font-semibold tabular-nums text-white mt-1">—</div>
+                    <div id="m-validate-unit" class="text-[10px] text-zinc-200">ns / call</div>
+                </div>
+                <div class="border border-zinc-700 rounded-2xl py-4">
+                    <div class="text-emerald-400 text-[10px] font-mono tracking-[2px]">TIER</div>
+                    <div id="m-tier" class="font-display text-2xl font-semibold tabular-nums text-white mt-1">—</div>
+                    <div id="m-tier-unit" class="text-[10px] text-zinc-200">ns / call</div>
                 </div>
             </div>
 
-            <button onclick="simulateZephOps()"
+            <button onclick="runCascade()"
                     class="w-full py-4 bg-white hover:bg-zinc-100 active:bg-zinc-200 text-black font-semibold rounded-3xl flex items-center justify-center gap-x-2 transition-all">
                 <i class="fas fa-bolt-lightning mr-2"></i>
                 <span>RUN ZEPH💨</span>
             </button>
+
+            <div class="mt-4 text-[11px] text-zinc-200 text-center">
+                Click. Feel the breeze.
+            </div>
         </div>
 
         <!-- Reproduce locally -->
@@ -289,73 +312,106 @@ cd xai-faf-zeph &amp;&amp; zig build benchmark</code></pre>
             document.documentElement.style.setProperty('--accent', '#10b981');
         }
         
-        // Simulate benchmark run
-        let benchmarkRunning = false;
-        
-        function runBenchmark() {
-            if (benchmarkRunning) return;
-            benchmarkRunning = true;
-            
-            const btns = document.querySelectorAll('button');
-            btns.forEach(b => b.disabled = true);
-            
-            const loadEl = document.getElementById('load-time');
-            if (loadEl) loadEl.textContent = '—';
-            
-            setTimeout(() => {
-                if (loadEl) loadEl.textContent = '169';
-                
-                // Confetti effect
-                createConfetti();
-                
-                setTimeout(() => {
-                    alert("\u2705 2019 iMac benchmark complete.\n\n169 \u03bcs average \u2022 3.36 \u03bcs peak");
-                    benchmarkRunning = false;
-                    btns.forEach(b => b.disabled = false);
-                }, 800);
-            }, 650);
-        }
-        
-        // Real WASM module — loaded once, cached.
-        let zephModule = null;
-        async function loadZephWasm() {
-            if (zephModule) return zephModule;
-            const response = await fetch('zeph.wasm');
+        // cascade.wasm — loaded once, cached.
+        let cascadeModule = null;
+        let cascadeWasmBytes = 0;
+        async function loadCascadeWasm() {
+            if (cascadeModule) return cascadeModule;
+            const response = await fetch('cascade.wasm');
             const buffer = await response.arrayBuffer();
+            cascadeWasmBytes = buffer.byteLength;
             const { instance } = await WebAssembly.instantiate(buffer);
-            zephModule = instance.exports;
-            return zephModule;
+            cascadeModule = instance.exports;
+            return cascadeModule;
         }
 
-        async function simulateZephOps() {
-            const loadEl = document.getElementById('load-time');
-            const unitEl = document.getElementById('load-unit');
-            if (!loadEl) return;
+        // Zig packs static data at low memory addresses. Inputs go past one
+        // WASM page (64 KB) to avoid corrupting the runtime.
+        const INPUT_OFFSET = 65536;
 
-            loadEl.textContent = '—';
+        // Sample 5-field micro-faf YAML — the public score packet payload.
+        const SCORE_YAML = `micro_faf:
+  name: "zeph-score"
+  goal: "21-slot AI-readiness score + breakdown from .faf input"
+  main_language: "Zig"
+  type: "score-packet"
+  framework: "zeph-wasm-v1"`;
+
+        function fmt(ns) {
+            if (ns < 10) return ns.toFixed(2);
+            if (ns < 100) return ns.toFixed(1);
+            return ns.toFixed(0);
+        }
+
+        async function runCascade() {
+            const statusEl = document.getElementById('status');
+            const metaEl = document.getElementById('wasm-meta');
+            const elScore = document.getElementById('m-score');
+            const elVal = document.getElementById('m-validate');
+            const elTier = document.getElementById('m-tier');
+
+            statusEl.textContent = 'LOADING';
+            elScore.textContent = '—';
+            elVal.textContent = '—';
+            elTier.textContent = '—';
 
             try {
-                const zeph = await loadZephWasm();
+                const c = await loadCascadeWasm();
+                metaEl.textContent = `${cascadeWasmBytes.toLocaleString()} bytes · three packets`;
+                statusEl.textContent = 'WARMING';
 
-                // Warm up — JIT, branch predictor, cache.
-                for (let i = 0; i < 100000; i++) zeph.zeph_version();
+                const mem = new Uint8Array(c.memory.buffer);
+                const enc = new TextEncoder();
+                const scoreBytes = enc.encode(SCORE_YAML);
+                mem.set(scoreBytes, INPUT_OFFSET);
 
-                // Real measurement — 1M ABI roundtrips.
-                const iterations = 1_000_000;
-                const t0 = performance.now();
-                for (let i = 0; i < iterations; i++) {
-                    zeph.zeph_version();
+                // score
+                {
+                    const ITER = 50_000;
+                    for (let i = 0; i < 5000; i++) c.score(INPUT_OFFSET, scoreBytes.length);
+                    const t0 = performance.now();
+                    let sum = 0;
+                    for (let i = 0; i < ITER; i++) sum = (sum + c.score(INPUT_OFFSET, scoreBytes.length)) | 0;
+                    const ns = ((performance.now() - t0) * 1e6) / ITER;
+                    elScore.textContent = fmt(ns);
+                    if (sum < -1) console.log(sum);
                 }
-                const t1 = performance.now();
+                await new Promise(r => setTimeout(r, 0));
 
-                const nsPerCall = ((t1 - t0) * 1_000_000) / iterations;
-                // Display as fractional microseconds (e.g., "0.07")
-                loadEl.textContent = nsPerCall < 1000
-                    ? (nsPerCall / 1000).toFixed(3)
-                    : (nsPerCall / 1000).toFixed(2);
-                if (unitEl) unitEl.textContent = 'μs / call · live in your browser';
+                // validate
+                {
+                    const baseline = new Uint8Array(32);
+                    baseline.set(enc.encode('FAFB'), 0);
+                    baseline[4] = 0x01;
+                    mem.set(baseline, INPUT_OFFSET);
+                    const ITER = 500_000;
+                    for (let i = 0; i < 50_000; i++) c.validate(INPUT_OFFSET, 32);
+                    const t0 = performance.now();
+                    let sum = 0;
+                    for (let i = 0; i < ITER; i++) {
+                        mem[INPUT_OFFSET + 12] = i & 0xff;
+                        sum = (sum + c.validate(INPUT_OFFSET, 32)) | 0;
+                    }
+                    const ns = ((performance.now() - t0) * 1e6) / ITER;
+                    elVal.textContent = fmt(ns);
+                    if (sum < -1) console.log(sum);
+                }
+                await new Promise(r => setTimeout(r, 0));
 
-                const card = loadEl.closest('.glass');
+                // tier
+                {
+                    const ITER = 2_000_000;
+                    for (let i = 0; i < 100_000; i++) c.tier(i & 0xff);
+                    const t0 = performance.now();
+                    let sum = 0;
+                    for (let i = 0; i < ITER; i++) sum = (sum + c.tier(i & 0xff)) | 0;
+                    const ns = ((performance.now() - t0) * 1e6) / ITER;
+                    elTier.textContent = fmt(ns);
+                    if (sum < -1) console.log(sum);
+                }
+
+                statusEl.textContent = 'LIVE';
+                const card = statusEl.closest('.glass');
                 if (card) {
                     card.style.transition = 'box-shadow 0.2s';
                     card.style.boxShadow = '0 0 0 3px rgba(16, 185, 129, 0.3)';
@@ -363,8 +419,8 @@ cd xai-faf-zeph &amp;&amp; zig build benchmark</code></pre>
                 }
                 createConfetti();
             } catch (err) {
-                loadEl.textContent = 'err';
-                console.error('[ZEPH] WASM load/run failed:', err);
+                statusEl.textContent = 'ERR';
+                console.error('[ZEPH] cascade.wasm load/run failed:', err);
             }
         }
         
@@ -413,7 +469,7 @@ cd xai-faf-zeph &amp;&amp; zig build benchmark</code></pre>
             
             if (e.key.toLowerCase() === 'b' && e.metaKey) {
                 e.preventDefault();
-                runBenchmark();
+                runCascade();
             }
         });
         
@@ -421,11 +477,11 @@ cd xai-faf-zeph &amp;&amp; zig build benchmark</code></pre>
         window.onload = function() {
             initializeTailwind();
             
-            // Easter egg: click logo to run benchmark
+            // Easter egg: click logo to run cascade demo
             const logo = document.querySelector('.sigil');
             if (logo) {
                 logo.style.cursor = 'pointer';
-                logo.addEventListener('click', runBenchmark);
+                logo.addEventListener('click', runCascade);
             }
             
             // Auto-run a gentle demo pulse after 3.5s
@@ -447,9 +503,9 @@ cd xai-faf-zeph &amp;&amp; zig build benchmark</code></pre>
         
         // Expose for console tinkering
         window.ZEPH = {
-            runBenchmark,
-            simulateZephOps,
-            version: "0.1.0-skeleton"
+            runCascade,
+            loadCascadeWasm,
+            version: "0.1.0-cascade"
         };
     </script>
 </body>

@@ -6,7 +6,7 @@ The 💨 is the role. The /F/ is the family. Joins **FAF🐘** (memory) as **ZEP
 > **FCL defines. UCL delivers.**  
 > `.faf` is the substrate. **ZEPH is the engine.**
 
-**Pure Zig delivery engine. WebAssembly target. 2.4 KB optimized. Three packet exports — `score`, `validate`, `tier`.**
+**Pure Zig delivery engine. WebAssembly target. 2.7 KB optimized. Three packet exports — `score`, `validate`, `tier`.**
 
 ZEPH is the performance engine for the **Foundational Context Layer (FCL)**.
 It turns persistent project DNA (`.faf`) into native-everywhere context operations.
@@ -49,7 +49,7 @@ git clone https://github.com/Wolfe-Jam/xai-faf-zeph.git
 cd xai-faf-zeph && zig build benchmark
 ```
 
-The `cascade.wasm` artifact ships in `docs/`. npm wrapper lives in `faf-wasm-core`'s reserved Zig slot (Stage 2 wiring is post-Phase-2 work).
+The `cascade.wasm` artifact ships in `docs/`. npm wrapper lives in [`faf-wasm-core`](https://www.npmjs.com/package/faf-wasm-core) v1.1.0 — Stage 2 wiring landed via M7. Both Rust and Zig kernels live behind a single `FafKernel` interface; score parity vs Rust kernel verified.
 
 ## Benchmarks
 

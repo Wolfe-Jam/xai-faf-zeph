@@ -4,20 +4,22 @@
 
 #### The Number That Changes Everything
 
-**Sub-1 μs average / Sub-500 ns peak** on Colossus-class hardware.
+**Sub-1 μs `score`** on Colossus-class hardware (with `validate` / `tier` already at single-digit ns).
 
-This is the threshold where context becomes effectively free — turning ZEPH from “fast” into a foundational layer that enables new classes of agent behavior.
+This is the threshold where context becomes effectively free — turning ZEPH from "fast" into a foundational layer that enables new classes of agent behavior.
 
 ---
 
 ### Phased Targets
 
-| Phase       | Hardware                  | Avg Latency | Peak Latency     | % of Inference Time | Status      |
-|-------------|---------------------------|-------------|------------------|---------------------|-------------|
-| **Current** | 2019 iMac                 | 169 μs      | 3.36 μs          | 5–15%               | Phase 1     |
-| **Phase 2** | High-end (M4 / EPYC)      | **< 5 μs**  | **< 1 μs**       | **< 1%**            | Target      |
-| **Moonshot**| Colossus-class            | **< 1 μs**  | **< 500 ns**     | **< 0.1%**          | Stretch     |
-| **Ultimate**| Optimized Colossus path   | **< 500 ns**| **< 200 ns**     | **< 0.05%**         | Long-term   |
+| Phase       | Hardware                  | score (21-slot) | validate / tier (per-packet)      | % of Inference Time | Status      |
+|-------------|---------------------------|-----------------|-----------------------------------|---------------------|-------------|
+| **Current** | 2019 iMac                 | 12 μs           | 6.7 ns / 4.44 ns (near phys. limit) | < 1% (val/tier)     | M7 ✓        |
+| **Phase 2** | High-end (M4 / EPYC)      | **< 5 μs**      | sub-5 ns                          | **< 1%**            | Target      |
+| **Moonshot**| Colossus-class            | **< 1 μs**      | sub-3 ns                          | **< 0.1%**          | Stretch     |
+| **Ultimate**| Optimized Colossus path   | **< 500 ns**    | sub-2 ns                          | **< 0.05%**         | Long-term   |
+
+*validate/tier are already near physical-limit on 2019 iMac (~20 cycles @ 3 GHz). Phase 2+ gains come primarily from `score` — the dominant cost on .faf inputs.*
 
 ---
 
@@ -33,10 +35,10 @@ Context loading becomes a **rounding error** (< 0.1%) — enabling agents to tre
 
 ### Key Milestones
 
-1. **Real WASM scoring live** in browser demo (actual μs measurement)
-2. **< 10 μs average** on high-end consumer hardware
-3. **< 5 μs average / < 1 μs peak** on server-class hardware
-4. **Sub-1 μs average** demonstrated on Colossus-scale workloads
+1. ✓ **Real WASM scoring live** in browser demo — actual μs measurement (M7, 12 μs score / 6.7 ns validate / 4.44 ns tier on 2019 iMac)
+2. **< 10 μs `score`** on high-end consumer hardware
+3. **< 5 μs `score`** on server-class hardware
+4. **Sub-1 μs `score`** demonstrated on Colossus-scale workloads
 5. **End-to-end agent loop** showing measurable improvement in task completion time
 
 ---

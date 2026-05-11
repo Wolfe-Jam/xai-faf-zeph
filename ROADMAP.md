@@ -11,7 +11,7 @@ This roadmap is living. xAI priorities override everything. Phases are measurabl
 **Deliverables**
 - Full Zig parser, validator, scorer, compile/decompile to FAFb v1/v2
 - WASM binary ≤ 5 KB (target 2.7 KB “ghost”)
-- Reproducible 169 μs avg / 3.36 μs peak on 2019 iMac (matching the existing measurement)
+- Reproducible per-packet benchmarks on 2019 iMac (M7 measurement): validate 6.7 ns · tier 4.44 ns · score 12 μs on 21-slot `.faf`
 - 100% FAFb round-trip + conformance tests
 - npm package `faf-zeph` (or `@xai/faf-zeph`) with zero-config JS bindings
 - Live browser demo (`/docs` source — GH Pages ✓, Vercel mirror ✓, `zeph.faf.one` CF custom domain next)
@@ -23,7 +23,7 @@ This roadmap is living. xAI priorities override everything. Phases are measurabl
 - xAI team can load a real `.faf` file and see sub-millisecond results
 - No regressions vs faf-wasm-sdk v2 on compatibility
 
-**Status**: Scoping accepted. Engine in main, real WASM live in browser, demo on two URLs.
+**Status**: Phase 1 substantially complete. cascade.wasm v0.2.0 (2,742 B) live in browser demo on Vercel + GH Pages. mk4-routed scoring. Score parity vs `faf-wasm-core` Rust kernel verified on identical `.faf` inputs. faf-wasm-core v1.1.0 ships Stage 2 npm wrapper.
 
 ## Phase 2 — Production-grade
 

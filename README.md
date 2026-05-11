@@ -40,22 +40,16 @@ ZEPH completes the picture as the **ultra-low-latency path**.
 
 **Live demo:** https://xai-faf-zeph.vercel.app/ · https://wolfe-jam.github.io/xai-faf-zeph/
 
-## Quickstart (30 seconds)
+## Quickstart
+
+Today: clone + build locally.
 
 ```bash
-# Coming soon — npm package
-npm install faf-zeph
+git clone https://github.com/Wolfe-Jam/xai-faf-zeph.git
+cd xai-faf-zeph && zig build benchmark
 ```
 
-```js
-import { loadContext } from 'faf-zeph';
-
-const ctx = await loadContext('./project.faf');
-console.log(ctx.score);           // 94
-console.log(ctx.getSection('DNA')); // < 5 μs
-```
-
-Or drop `cascade.wasm` (2.4 KB) directly into any WASM runtime — `fetch` + `instantiate` + call the packet you need.
+The `cascade.wasm` artifact ships in `docs/`. npm wrapper lives in `faf-wasm-core`'s reserved Zig slot (Stage 2 wiring is post-Phase-2 work).
 
 ## Benchmarks
 

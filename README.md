@@ -12,7 +12,7 @@ ZEPH is the performance engine for the **Foundational Context Layer (FCL)**.
 It turns persistent project DNA (`.faf`) into native-everywhere context operations.
 
 Measured on a 2019 iMac (Intel i5-7360U @ 2.30 GHz):
-**native `score` 683 ns · `validate` 5.8 ns · `tier` 2.64 ns.**
+**native `validate` 6.7 ns · `tier` 4.44 ns · `score` 12 μs on full 21-slot `.faf`.**
 Live demo runs the same WASM in your browser — click to verify.
 
 ## Packet menu
@@ -53,16 +53,16 @@ The `cascade.wasm` artifact ships in `docs/`. npm wrapper lives in `faf-wasm-cor
 
 ## Benchmarks
 
-Avg time per call (2019 iMac, Intel i5-7360U @ 2.30 GHz; same input fixtures across all runtimes).
+Avg time per call. Same input fixtures across runtimes. `score` reads real `.faf` YAML (21-base-slot Mk4 scoring).
 
-| Packet              | Native (Zig ReleaseFast) | Node 22.22.2 | Bun 1.3.13 |
-|---------------------|-------------------------:|-------------:|-----------:|
-| `score` (5-slot)    |                  683 ns  |    3,162 ns  |  3,809 ns  |
-| `validate` (32 B)   |                  5.8 ns  |       27 ns  |     29 ns  |
-| `tier` (u8)         |                 2.64 ns  |     11.7 ns  |    9.5 ns  |
+| Packet                       | Native (Zig ReleaseFast) | Node 22.22.2 | Bun 1.3.13 |
+|------------------------------|-------------------------:|-------------:|-----------:|
+| `score` (5 pop + 16 ignored) |               12,450 ns  |   29,381 ns  |  21,625 ns |
+| `score` (21 populated)       |               12,408 ns  |   27,766 ns  |  22,714 ns |
+| `validate` (32 B baseline)   |                  6.7 ns  |     38.7 ns  |    38.3 ns |
+| `tier` (u8)                  |                 4.44 ns  |     11.9 ns  |    14.6 ns |
 
-`validate` and `tier` sit deep under 20 ns on native — single-cycle-ish work, branch + load.
-`score` is YAML-parse-bound; the WASM crossing adds ~3-5× over native on the work-heavy path.
+`validate` and `tier` sit deep under 50 ns across every runtime — single-digit ns native, double-digit ns in WASM. `score` cost is roughly constant in populated count (same parser walk; placeholder / `slotignored` checks are cheap).
 
 Reproducibility:
 - Native: `zig build benchmark`
@@ -91,9 +91,10 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) and [ROADMAP.md](ROADMAP.md).
 
 - [x] Scoping accepted
 - [x] Three packet exports live: `score`, `validate`, `tier`
-- [x] 2.4 KB `cascade.wasm` shipping in `docs/` — native validate 5.8 ns, tier 2.64 ns, score 683 ns on 2019 iMac
-- [x] Live browser demo runs all three packets — Vercel + GH Pages
+- [x] 2.7 KB `cascade.wasm` shipping in `docs/` — native validate 6.7 ns, tier 4.44 ns, score 12 μs on 21-slot `.faf`
+- [x] Live browser demo runs all three packets on real `.faf` — Vercel + GH Pages
 - [x] FAFb v1 validation via `faf-rust-sdk` 2.0.x compatibility (format authority)
+- [x] `score` parity with `faf-wasm-core` Rust kernel — same `.faf` → same score, byte-equal
 - [ ] Full FAFb v1 section-table walk + `findSectionByName` packet
 - [ ] Public npm package
 

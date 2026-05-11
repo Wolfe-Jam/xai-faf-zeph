@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ZEPH is the Zig delivery engine for FAF context. Three packet exports (score · validate · tier), 2.4 KB WASM, sub-microsecond on consumer hardware. Live demo + click-to-verify benchmark in your browser.">
+    <meta name="description" content="ZEPH is the Zig delivery engine for FAF context. Three packet exports (score · validate · tier), 2.7 KB WASM, single-digit-nanosecond validate + tier on consumer hardware. Live demo + click-to-verify benchmark in your browser.">
 
     <!-- Social previews -->
     <meta property="og:title" content="ZEPH💨 — Ultra Context Layer">
-    <meta property="og:description" content="Pure Zig delivery engine. 2.4 KB WASM. Sub-microsecond on a 2019 iMac. Click to verify in your browser.">
+    <meta property="og:description" content="Pure Zig delivery engine. 2.7 KB WASM. Native validate 6.7 ns · tier 4.44 ns on a 2019 iMac. Click to verify in your browser.">
     <meta property="og:url" content="https://xai-faf-zeph.vercel.app/">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="ZEPH💨 — Ultra Context Layer">
-    <meta name="twitter:description" content="Pure Zig delivery engine. 2.4 KB WASM. Sub-microsecond on a 2019 iMac.">
+    <meta name="twitter:description" content="Pure Zig delivery engine. 2.7 KB WASM. Native validate 6.7 ns · tier 4.44 ns on a 2019 iMac.">
 
     <!-- Inline SVG favicon (no asset file) -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💨</text></svg>">
@@ -149,7 +149,7 @@
         </div>
 
         <div class="mt-8 text-xs text-white flex items-center justify-center">
-            <span>Native baseline · 2019 iMac · score 683 ns · validate 5.8 ns · tier 2.64 ns</span>
+            <span>Native baseline · 2019 iMac · validate 6.7 ns · tier 4.44 ns · score 12 μs on 21-slot `.faf`</span>
         </div>
     </div>
 
@@ -216,7 +216,7 @@
                     </div>
                     <div class="flex justify-between border-b border-white/10 pb-3">
                         <span class="text-zinc-200">Artifact</span>
-                        <span class="font-semibold">2.4 KB cascade.wasm</span>
+                        <span class="font-semibold">2.7 KB cascade.wasm</span>
                     </div>
                     <div class="flex justify-between border-b border-white/10 pb-3">
                         <span class="text-zinc-200">Packets</span>
@@ -229,7 +229,7 @@
                 </div>
 
                 <div class="mt-8 pt-6 border-t border-white/10 flex items-center gap-x-2 text-xs">
-                    <div class="px-2.5 py-px bg-emerald-400 text-black rounded font-mono text-[10px]">5.8 ns</div>
+                    <div class="px-2.5 py-px bg-emerald-400 text-black rounded font-mono text-[10px]">6.7 ns</div>
                     <span class="text-emerald-400">native validate · 2019 iMac</span>
                 </div>
             </div>
@@ -343,13 +343,32 @@ cd xai-faf-zeph &amp;&amp; zig build benchmark</code></pre>
         // WASM page (64 KB) to avoid corrupting the runtime.
         const INPUT_OFFSET = 65536;
 
-        // Sample 5-field micro-faf YAML — the public score packet payload.
-        const SCORE_YAML = `micro_faf:
-  name: "zeph-score"
-  goal: "21-slot AI-readiness score + breakdown from .faf input"
-  main_language: "Zig"
-  type: "score-packet"
-  framework: "zeph-wasm-v1"`;
+        // Real .faf — Mk4 21-base-slot input. 5 populated + 16 slotignored
+        // → 100 (Trophy). cascade.score routes through mk4.calculate(.base).
+        const SCORE_YAML = `project:
+  name: zeph
+  goal: Ultra Context Layer — sub-microsecond delivery for .faf
+  main_language: Zig
+human_context:
+  who: xAI / Grok team and frontier agent builders
+  what: ZEPH💨 — the delivery engine for FAF
+  why: slotignored
+  where: slotignored
+  when: slotignored
+  how: slotignored
+stack:
+  frontend: slotignored
+  css_framework: slotignored
+  ui_library: slotignored
+  state_management: slotignored
+  backend: slotignored
+  api_type: slotignored
+  runtime: slotignored
+  database: slotignored
+  connection: slotignored
+  hosting: slotignored
+  build: slotignored
+  cicd: slotignored`;
 
         function fmt(ns) {
             if (ns < 10) return ns.toFixed(2);

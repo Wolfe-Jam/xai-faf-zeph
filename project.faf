@@ -1,138 +1,49 @@
 faf_version: 2.5.0
-generated: 2026-05-07T22:08:30.258Z
-ai_scoring_system: 2025-09-20
-ai_score: 39%
-ai_confidence: LOW
-ai_value: 30_seconds_replaces_20_minutes_of_questions
-ai_tldr:
-  project: 'ZEPH💨 — Ultra Context Layer (UCL): microsecond context engine for Grok and frontier agents. Pure Zig → WASM, 2.7 KB ghost binary.'
-  stack: Pure Zig 0.14 → WASM (wasm32-freestanding, ReleaseSmall) + native fallback
-  quality_bar: ZERO_ERRORS_F1_STANDARDS
-  current_focus: Phase 1 skeleton — full Zig parser + FAFb round-trip + reproducible benchmarks
-  your_role: Build the engine, refine the docs, ship to the xAI/Grok collaboration channel
-instant_context:
-  what_building: Microsecond context engine for the Foundational Context Layer (FCL). Pure Zig → WASM, 2.7 KB ghost binary class. Turns persistent project DNA (.faf) into stupidly fast, scalable, native-everywhere context operations. Measured 169 μs avg / 3.36 μs peak on 2019 iMac.
-  tech_stack: Pure Zig 0.14 → WASM (wasm32-freestanding, ReleaseSmall) + native fallback
-  main_language: Zig
-  key_files:
-    - build.zig
-    - src/root.zig
-    - benchmarks/main.zig
-    - examples/browser-demo/index.html
-    - .github/workflows/ci.yml
-context_quality:
-  slots_filled: 9/21 (43%)
-  ai_confidence: LOW
-  handoff_ready: false
-  missing_context:
-    - Timeline
-    - CI/CD pipeline
-    - Database
 project:
-  name: ZEPH💨 — Ultra Context Layer (UCL)
-  goal: Performance engine for the Foundational Context Layer — make .faf microsecond-fast across browser, edge, Node, Bun, and (soon) Colossus. Default ultra-low-latency context path for Grok and frontier agents.
+  name: xai-faf-zeph
+  goal: The 💨 is the role. The /F/ is the family. Joins **FAF🐘** (memory) as **ZEPH💨** (delivery).
   main_language: Zig
-  type: library
-  category: binary-format-engine
-  mission: Microsecond context ops, native everywhere. The 💨 to FAF's 🐘.
-  revolution: Context load time becomes a non-factor in agent loops.
-  brand: F1-Inspired Software Engineering — Championship AI Context
-ai_instructions:
-  priority_order:
-    - 1. Read THIS .faf file first
-    - 2. Read README.md for project narrative + brand
-    - 3. Read ROADMAP.md for phase gates + 9 priority experiments
-    - 4. Read CONTRIBUTING.md for collaboration model + RFC process
-  working_style:
-    code_first: true
-    explanations: minimal
-    quality_bar: zero_errors
-    testing: required
-  warnings:
-    - Performance changes must include before/after microbenchmark numbers (see /benchmarks)
-    - No breaking changes to FAFb v1/v2 or existing .faf files without RFC
-    - Brand sigils are load-bearing — FAF🐘 + ZEPH💨, never substitute or omit
-    - 169 μs / 3.36 μs are MEASURED on 2019 iMac; sub-component timings are PROJECTED until Phase 1 lands
-    - Repo lang is Zig 100% — examples/ stays linguist-documentation
+  type: wasm  # found: build.zig wasm target
 stack:
-  language: Zig 0.14
-  target: wasm32-freestanding (ReleaseSmall) + native fallback
-  build: zig build
-  test: zig build test
-  benchmark: zig build benchmark
-  ci_cd: GitHub Actions (.github/workflows/ci.yml)
-  binary_target: 2.7 KB ghost binary
-  package_manager: Zig Package Manager
-  framework: none (pure Zig, zero external dependencies)
+  frontend: slotignored
+  css_framework: slotignored
+  ui_library: slotignored
+  state_management: slotignored
+  backend: slotignored
+  api_type: slotignored
+  runtime: slotignored
   database: slotignored
   connection: slotignored
-preferences:
-  quality_bar: zero_errors
-  commit_style: conventional_emoji
-  response_style: concise_code_first
-  explanation_level: minimal
-  communication: direct
-  testing: required
-  documentation: as_needed
-state:
-  phase: phase_1_skeleton
-  version: 0.1.0
-  focus: full_parser_fafb_roundtrip_reproducible_benchmarks
-  status: green_flag
-  next_milestone: phase_1_mvp_target_4_to_6_weeks
-  timeline: Started 2026-05-07. Phase 1 MVP 4–6 weeks. Phase 2 production-grade 8–12 weeks. Phase 3 ongoing.
-  blockers: null
-scores:
-  faf_score: 39
-  slot_based_percentage: 43
-  total_slots: 21
-  scoring_philosophy: F1-Inspired Championship Scoring
-tags:
-  auto_generated:
-    - zeph-ultra-context-layer-ucl
-    - zig-wasm
-    - zig
-    - zig-build
-  smart_defaults:
-    - .faf
-    - ai-ready
-    - "2026"
-    - software
-    - open-source
-  user_defined:
-    - zeph
-    - ucl
-    - fcl
-    - faf
-    - faf-binary
-    - microsecond
-    - xai
-    - grok
-    - mcp
-    - context-layer
-    - foundational-context-layer
-    - ultra-context-layer
+  hosting: Vercel
+  build: zig build
+  cicd: GitHub Actions
+  monorepo_tool: slotignored
+  package_manager: slotignored
+  workspaces: slotignored
+  admin: slotignored
+  cache: slotignored
+  search: slotignored
+  storage: slotignored
 human_context:
-  who: xAI team (Grok core), frontier agent builders, FAF ecosystem contributors. Live commission via X engagement 2026-05-07.
-  what: A microsecond context engine — pure Zig compiled to a 2.7 KB WASM ghost binary that parses, validates, scores, and retrieves from .faf project DNA at sub-millisecond speed.
-  why: Context load time is the highest-leverage knob in the agentic stack. Every microsecond shaved from context multiplies reasoning depth, memory coherence, multimodality, and inference efficiency. ZEPH closes the performance gap that .faf (FCL substrate) alone cannot close.
-  where: github.com/Wolfe-Jam/xai-faf-zeph (transfer path to github.com/xAI/xai-faf-zeph ready when xAI takes ownership). Production target — Colossus.
-  when: Started 2026-05-07. Phase 1 MVP target 4–6 weeks. Phase 2 production-grade 8–12 weeks. Phase 3 ongoing.
-  how: zig build / zig build test / zig build benchmark. Distributed as zeph.wasm + npm package faf-zeph (Phase 1) + native static lib for Rust interop.
-  additional_context: ZEPH💨 sister-mark to FAF🐘 — each FAF-family brand carries a one-character role-compression sigil. UCL pairs with FCL in a two-tier layer architecture. Plan-B name ZAF held in reserve, never burned. Reference thread https://x.com/wolfe_jam/status/2036534380215050638.
-  context_score: 0
-  total_prd_score: 39
-  success_rate: 50%
-ai_scoring_details:
-  system_date: 2025-09-20
-  slot_based_percentage: 43
-  ai_score: 39
-  total_slots: 21
-  filled_slots: 9
-  scoring_method: Honest percentage - no fake minimums
-  trust_embedded: COUNT ONCE architecture - trust MY embedded scores
-faf_dna:
-  birth_dna: 43
-  birth_certificate: FAF-2026-XAIFAFZE-R3AH
-  birth_date: 2026-05-07T22:08:30.507Z
-  current_score: 43
+  who: xAI / Grok team (live commission via X engagement 2026-05-07). Frontier agent builders. wolfejam (IP owner, public-collab boundary).
+  what: Public SDK for ZEPH💨. Wraps cascade.wasm (private engine artifact) with a live demo, RAG-friendly docs, and the auditable surface that consumers and integrators see. Schema + harness + WASM blob — the website incarnate.
+  why: Context is the highest-leverage knob in the agentic stack. ZEPH makes it **native everywhere** — browser, edge, Node, Bun — while multiplying reasoning, memory, multimodality, and inference efficiency for Grok specifically and frontier agents generally.
+  where: github.com/Wolfe-Jam/xai-faf-zeph (transfer-ready to github.com/xAI/xai-faf-zeph when xAI takes ownership). Live at xai-faf-zeph.vercel.app. Production target — Colossus.
+  when: Repo opened 2026-05-07. v0.1.0 live demo shipped 2026-05-10 (cascade.wasm integration, commit d17187e). M7 in progress — paused 2026-05-11 for .faf work-start gate.
+  how: zig build (compile native), zig build test (unit tests), zig build benchmark (reproducible perf). Demo — open docs/index.html or visit xai-faf-zeph.vercel.app. WASM artifact docs/cascade.wasm synced from private engine at /FAF/cascade/.
+monorepo:
+  packages_count: slotignored
+  build_orchestrator: slotignored
+  versioning_strategy: slotignored
+  shared_configs: slotignored
+  remote_cache: slotignored
+tech_stack:
+  - Zig
+key_files:
+  - build.zig
+  - src/root.zig
+  - README.md
+  - vercel.json
+commands:
+  build: zig build
+  test: zig build test

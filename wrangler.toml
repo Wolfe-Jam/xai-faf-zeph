@@ -1,0 +1,27 @@
+name = "faf-zeph"
+compatibility_date = "2024-12-30"
+
+# ZEPH web surface — Cloudflare canonical (zeph.faf.one)
+#
+# Pure-static deployment via Workers Assets. The docs/ directory
+# contains everything: index.html (live demo + benchmark) and
+# cascade.wasm (the 2.7 KB Zig delivery engine).
+#
+# Companion surface: xai-faf-zeph.vercel.app — Vercel-deployed
+# from the SAME docs/ directory (vercel.json points to it). Both
+# surfaces serve byte-identical content. Vercel stays as the
+# origin-credential URL (Grok-history, backlinks, RAG-seed); CF
+# is the clean-brand canonical for Zig/Codeberg-facing audiences.
+#
+# Per `ask-before-going-live-website-deploys.md` doctrine,
+# this config is staged + committed autonomously; the actual
+# `wrangler deploy` requires explicit GO from wolfejam.
+#
+# Deploy reference: see CF-DEPLOY.md in this directory.
+
+routes = [
+  { pattern = "zeph.faf.one/*", zone_name = "faf.one" }
+]
+
+[assets]
+directory = "./docs"

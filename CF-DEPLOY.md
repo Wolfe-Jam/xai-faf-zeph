@@ -23,10 +23,19 @@ npx wrangler deploy
 Wrangler will:
 1. Read `wrangler.toml`
 2. Upload `docs/` as a Workers Assets bundle
-3. Create the route `zeph.faf.one/*` on the `faf.one` zone
-4. Issue an SSL certificate automatically (Cloudflare Universal SSL)
+3. Provision `zeph.faf.one` as a **Custom Domain** on the `faf.one` zone:
+   - Create the DNS record automatically (no Configure-DNS step needed)
+   - Issue the SSL certificate automatically (Cloudflare Universal SSL)
+   - Wire the route in one operation
 
-First-time deploy may take ~30–60 seconds for SSL provisioning to settle.
+First-time deploy may take ~30–60 seconds for DNS + SSL provisioning to settle.
+
+> **Why `custom_domain = true`?** It tells wrangler to treat
+> `zeph.faf.one` as a first-class custom domain — DNS provisioning,
+> SSL issuance, and route wiring all happen in the single `wrangler
+> deploy` call. The older `zone_name` pattern works but requires
+> manual DNS record creation first. Custom Domain mode is the
+> modern, one-step path.
 
 ---
 

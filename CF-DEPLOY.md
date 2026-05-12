@@ -1,13 +1,19 @@
 # CF Deploy — `zeph.faf.one`
 
-The ZEPH web surface lives on **two URLs**:
+The ZEPH web surface lives on **three URLs**:
 
-| URL | Host | Role |
-|-----|------|------|
-| `xai-faf-zeph.vercel.app` | Vercel | Origin-credential (Grok-history, backlinks, RAG-seed) — **never tear down** |
-| `zeph.faf.one` | Cloudflare Workers | Clean-brand canonical for Zig/Codeberg-facing audiences |
+| URL | Host | Role | Auto-deploy? |
+|-----|------|------|--------------|
+| `xai-faf-zeph.vercel.app` | Vercel | Origin-credential (Grok-history, backlinks, RAG-seed) — **never tear down** | ✅ on push |
+| `wolfe-jam.github.io/xai-faf-zeph/` | GitHub Pages | GitHub-native discoverability (repo browsers find the live site one click away) | ✅ on push |
+| `zeph.faf.one` | Cloudflare Workers | Clean-brand canonical for Zig/Codeberg-facing audiences | ⚠️ manual `wrangler deploy` |
 
-Both serve byte-identical content from `docs/` (the Zig build output). Vercel reads it via `vercel.json`; Cloudflare reads it via `wrangler.toml` Workers Assets. Same source of truth, two delivery surfaces.
+All three serve byte-identical content from `docs/` (the Zig build output):
+- **Vercel** reads it via `vercel.json` (`outputDirectory: "docs"`)
+- **GitHub Pages** reads it from the `main` branch at the `/docs` path (configured in repo Settings → Pages)
+- **Cloudflare** reads it via `wrangler.toml` Workers Assets (`[assets] directory = "./docs"`)
+
+Same source of truth, three delivery surfaces, zero content drift (impossible — they're all reading the same git path).
 
 ---
 
@@ -81,15 +87,28 @@ diff <(curl -s https://xai-faf-zeph.vercel.app/) \
 
 ---
 
-## Coordinating updates across both surfaces
+## Coordinating updates across all three surfaces
 
 When the Zig build produces a new `docs/cascade.wasm` or `docs/index.html`:
 
 1. `git add docs/ && git commit && git push origin main`
-2. Vercel auto-deploys on push (the `xai-faf-zeph.vercel.app` URL updates within ~30s)
-3. CF needs `npx wrangler deploy` (manual, on explicit GO from wolfejam)
+2. **Vercel** auto-deploys on push (`xai-faf-zeph.vercel.app` updates within ~30s)
+3. **GitHub Pages** auto-builds on push (`wolfe-jam.github.io/xai-faf-zeph/` updates within ~1–2 min)
+4. **CF Workers** needs `npx wrangler deploy` (manual, on explicit GO from wolfejam)
 
-The two surfaces will be momentarily out of sync between step 2 and step 3 — that's fine. Vercel takes a few seconds to propagate anyway. If perfect sync matters for a launch moment, deploy CF first, then push (which triggers Vercel) within the same minute.
+The three surfaces will be momentarily out of sync between steps 2–4 — that's fine. Each CDN propagates independently anyway. If perfect sync matters for a launch moment, deploy CF first, then push (which triggers Vercel + GH Pages) within the same minute.
+
+**Verification probe across all three:**
+
+```bash
+# All should return HTTP 200 + same content-length
+for URL in https://xai-faf-zeph.vercel.app/ \
+           https://wolfe-jam.github.io/xai-faf-zeph/ \
+           https://zeph.faf.one/ ; do
+  echo "─── $URL ───"
+  curl -sI "$URL" | head -3
+done
+```
 
 ---
 

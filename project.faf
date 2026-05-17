@@ -1,4 +1,4 @@
-faf_version: 2.5.0
+faf_version: "3.0"
 project:
   name: xai-faf-zeph
   goal: The 💨 is the role. The /F/ is the family. Joins **FAF🐘** (memory) as **ZEPH💨** (delivery).

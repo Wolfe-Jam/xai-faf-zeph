@@ -1,3 +1,5 @@
+<!-- faf: xai-faf-zeph | Zig | wasm-engine | ZEPH — Ultra Context Layer for FAF: microsecond context ops via pure Zig → WASM, 2.7 KB ghost binary -->
+
 # ZEPH💨 — Ultra Context Layer (UCL)
 
 **ZEPH — clipped from Zephyrus, Greek god of the west wind.**  

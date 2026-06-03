@@ -1,0 +1,21 @@
+.{
+    // ZEPH — Zig⚡WASM engine for the .faf binary format.
+    .name = .zeph,
+    .version = "0.1.0",
+
+    // Stable per-project identity, minted by Zig 0.16.0 — do NOT change.
+    .fingerprint = 0x78c06b374592f2b,
+
+    .minimum_zig_version = "0.16.0",
+
+    .dependencies = .{},
+
+    // Only what a consumer needs to build ZEPH as a dependency.
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+        "LICENSE",
+        "README.md",
+    },
+}

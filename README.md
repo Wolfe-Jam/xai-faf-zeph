@@ -77,6 +77,33 @@ cd xai-faf-zeph && zig build benchmark
 
 The `cascade.wasm` artifact ships in `docs/`. npm wrapper lives in [`faf-wasm-core`](https://www.npmjs.com/package/faf-wasm-core) v1.1.0 — Stage 2 wiring landed via M7. Both Rust and Zig kernels live behind a single `FafKernel` interface; score parity vs Rust kernel verified.
 
+### Use as a dependency (Zig)
+
+ZEPH is a Zig package. Add it to your project (Zig **≥ 0.16**, zero external deps):
+
+```sh
+zig fetch --save "git+https://codeberg.org/wolfejam/zeph#v0.1.0"
+```
+
+Wire the `zeph` module in your `build.zig`:
+
+```zig
+const zeph = b.dependency("zeph", .{});
+exe.root_module.addImport("zeph", zeph.module("zeph"));
+```
+
+Then call the packet exports — plain functions on bytes:
+
+```zig
+const zeph = @import("zeph");
+
+const t = zeph.tier(score);              // score (u8) → tier byte (0..7)
+const ok = zeph.validate(ptr, len);      // FAFb structural check → 0 = valid
+const s = zeph.score(ptr, len);          // Mk4 score (0..100) on a .faf input
+```
+
+> Repo home for the Zig dependency is **Codeberg** (`codeberg.org/wolfejam/zeph`) — alongside the Zig project's own forge. Mirrored at `github.com/Wolfe-Jam/xai-faf-zeph`.
+
 ## Benchmarks
 
 Avg time per call. Same input fixtures across runtimes. `score` reads real `.faf` YAML (21-base-slot Mk4 scoring).

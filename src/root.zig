@@ -108,3 +108,43 @@ test "AERO: tier is allocation-free and monotonic across 0..=100" {
         last = t;
     }
 }
+
+// Stress / fuzz: consecutive runs over garbage at every length and alignment.
+// Regression guard for the unaligned-input crash fixed in fafb.parseHeader —
+// validate/score must always return a defined value and never panic, and be
+// deterministic for identical input.
+test "AERO: validate survives 200k fuzz runs (all lengths, alignments 0..7), no crash" {
+    var prng = std.Random.DefaultPrng.init(0x5AFEC0DE5AFEC0DE);
+    const rand = prng.random();
+    var buf: [320]u8 = undefined;
+    var i: usize = 0;
+    while (i < 200_000) : (i += 1) {
+        rand.bytes(buf[0..]);
+        const off = rand.intRangeAtMost(usize, 0, 7); // exercise alignment 0..7
+        const len = rand.intRangeAtMost(usize, 0, buf.len - off);
+        const slice = buf[off .. off + len];
+        const code = validate(slice.ptr, slice.len);
+        try std.testing.expect(code <= 3); // always a defined code
+        try std.testing.expectEqual(code, validate(slice.ptr, slice.len)); // deterministic
+    }
+}
+
+test "AERO: score survives 100k fuzz runs (valid magic + garbage bodies), bounded 0..21" {
+    var prng = std.Random.DefaultPrng.init(0xF00DBEEFF00DBEEF);
+    const rand = prng.random();
+    var buf: [320]u8 = undefined;
+    var i: usize = 0;
+    while (i < 100_000) : (i += 1) {
+        rand.bytes(buf[0..]);
+        // Force valid v1 magic so parseHeader proceeds into the structural scorer.
+        buf[0] = 'F';
+        buf[1] = 'A';
+        buf[2] = 'F';
+        buf[3] = 'B';
+        buf[4] = 0x01;
+        buf[5] = 0x00;
+        const len = rand.intRangeAtMost(usize, 0, buf.len);
+        const s = score(buf[0..len].ptr, len);
+        try std.testing.expect(s <= 21); // structural score stays bounded, no crash
+    }
+}

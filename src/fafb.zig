@@ -62,7 +62,8 @@ pub const StringTable = struct {
     pub fn get(self: StringTable, offset: u32) []const u8 {
         if (offset >= self.data.len) return "";
         const len = self.data[offset];
-        if (offset + 1 + len > self.data.len) return "";
+        // Widen to u64: adversarial offset/len must not overflow the bounds check.
+        if (@as(u64, offset) + 1 + len > self.data.len) return "";
         return self.data[offset + 1 .. offset + 1 + len];
     }
 };
@@ -89,9 +90,11 @@ pub const SectionTable = struct {
 
 pub fn parseStringTable(data: []const u8, header: Header) !StringTable {
     const start = header.string_table_offset;
-    const end = start + header.string_table_size;
-    if (end > data.len) return error.InvalidStringTable;
-    return StringTable.init(data[start..end]);
+    const size = header.string_table_size;
+    // Widen to u64: adversarial u32 offset+size must not overflow the bounds
+    // check (caught by the score fuzz stress test on garbage bodies).
+    if (@as(u64, start) + size > data.len) return error.InvalidStringTable;
+    return StringTable.init(data[start .. start + size]);
 }
 
 pub fn buildSectionTable(data: []const u8, header: Header) !SectionTable {

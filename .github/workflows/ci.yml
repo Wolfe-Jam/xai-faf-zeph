@@ -8,6 +8,7 @@ on:
 
 jobs:
   build-and-test:
+    name: Build + WJTTC tests (Zig)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -16,12 +17,52 @@ jobs:
         uses: mlugg/setup-zig@v2
         with:
           version: 0.16.0
-      
+
       - name: Build
         run: zig build
-      
-      - name: Test
+
+      - name: Test (WJTTC BRAKE/ENGINE tiers)
         run: zig build test
-      
-      - name: Benchmark (skeleton)
+
+      - name: Native benchmark (Phase-1 skeleton smoke)
         run: zig build benchmark
+
+  dogfood-and-taf:
+    name: Dogfood parity + TAF receipt
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Put Bun global bin on PATH
+        run: echo "$HOME/.bun/bin" >> "$GITHUB_PATH"
+
+      # Loop-the-loop: the real engine (docs/cascade.wasm) scores this repo's own
+      # project.faf and must match the canonical faf CLI (100). Fails on any drift.
+      - name: Dogfood — engine self-score parity
+        run: bun benchmarks/bench_js.mjs
+
+      - name: Install faf CLI
+        run: bun add -g faf-cli
+
+      # TAF (Test Archive Format) — emit the quality-claim receipt and gate on it.
+      - name: TAF receipt + Trophy gate (project.faf == 100 / TROPHY)
+        run: |
+          faf taf --output taf-receipt.json
+          cat taf-receipt.json
+          score=$(jq -r '.score' taf-receipt.json)
+          tier=$(jq -r '.tier' taf-receipt.json)
+          if [ "$score" != "100" ] || [ "$tier" != "TROPHY" ]; then
+            echo "::error::TAF gate FAILED — score=$score tier=$tier (expected 100 / TROPHY)"
+            exit 1
+          fi
+          echo "TAF gate PASS 🏆 $tier $score"
+
+      - name: Upload TAF receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: taf-receipt
+          path: taf-receipt.json

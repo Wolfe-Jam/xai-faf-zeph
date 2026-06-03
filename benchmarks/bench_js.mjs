@@ -124,7 +124,6 @@ console.log(`  score    : ${fmt(benchScore(REFERENCE_YAML))} ns`);
 console.log(`  validate : ${fmt(benchValidate())} ns`);
 console.log(`  tier     : ${fmt(benchTier())} ns`);
 
-// Gate on the control (engine must run + produce the known score). Parity on the
-// repo's own .faf is reported; we decide whether to harden it into the gate after
-// seeing the first real number.
-process.exitCode = controlOk ? 0 : 1;
+// CI gate: the engine must run (control) AND agree with the canonical scorer on
+// this repo's own .faf (parity). Either failing fails the build.
+process.exitCode = controlOk && parityOk ? 0 : 1;

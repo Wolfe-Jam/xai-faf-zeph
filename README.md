@@ -175,6 +175,16 @@ MIT — same as the entire FAF family.
 
 ---
 
+### 🏎️ The FAF · Zig family
+*Bun is built on Zig ⚡ — so are we.*
+
+- **[ZEPH💨](https://github.com/Wolfe-Jam/xai-faf-zeph)** — Zig → WASM context engine (UCL), 2.7 KB
+- **[bun-sticky-zig](https://github.com/Wolfe-Jam/bun-sticky-zig)** — Zig-native FAF CLI, 77 KB, zero deps
+- **[bun-sticky](https://npmjs.com/package/bun-sticky)** — the TypeScript FAF CLI (npm)
+- **[.faf](https://faf.one)** — the IANA-registered context format (FAF🐘)
+
+---
+
 *Reference thread: https://x.com/wolfe_jam/status/2036534380215050638*  
 *Working title (GrokX-coined): Context Ultra*  
 *Plan-B name held in reserve: ZAF*

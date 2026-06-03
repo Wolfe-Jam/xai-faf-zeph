@@ -40,8 +40,13 @@ pub fn isValidMagic(data: []const u8) bool {
 
 pub fn parseHeader(data: []const u8) !Header {
     if (data.len < @sizeOf(Header)) return error.TooShort;
-    const header = @as(*const Header, @ptrCast(@alignCast(data.ptr))).*;
     if (!isValidMagic(data)) return error.InvalidMagic;
+    // Copy the header out of the byte slice rather than @alignCast-ing the
+    // caller's pointer: a raw []const u8 may be 1-aligned (e.g. a string literal
+    // or an offset into a buffer), and @alignCast would panic in safe builds.
+    // bytesToValue is alignment-safe. (Caught by CI on Linux; passed locally by
+    // luck of allocation alignment.)
+    const header = std.mem.bytesToValue(Header, data[0..@sizeOf(Header)]);
     if (header.version != VERSION_V1) return error.UnsupportedVersion;
     return header;
 }

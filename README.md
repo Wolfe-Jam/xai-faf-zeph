@@ -17,6 +17,8 @@ Measured on a 2019 iMac (Intel i5-7360U @ 2.30 GHz):
 **native `validate` 6.7 ns · `tier` 4.44 ns · `score` 12 μs on full 21-slot `.faf`.**
 Live demo runs the same WASM in your browser — click to verify.
 
+> **🏆 Dogfood receipt:** ZEPH's engine scores this repo's *own* `project.faf` at **100** — identical to the canonical `faf` CLI. Reproduce in one command: `bun benchmarks/bench_js.mjs`.
+
 ---
 
 ## 🚀 Featured: Locked in with @grok
@@ -117,11 +119,16 @@ Avg time per call. Same input fixtures across runtimes. `score` reads real `.faf
 
 `validate` and `tier` sit deep under 50 ns across every runtime — single-digit ns native, double-digit ns in WASM. `score` cost is roughly constant in populated count (same parser walk; placeholder / `slotignored` checks are cheap).
 
+**Dogfood — self-score parity.** ZEPH's engine (`docs/cascade.wasm`) scores this repo's own `project.faf` at **100**, matching the canonical `faf` CLI (🏆 Trophy). The harness also prints per-call timing:
+
+```sh
+bun benchmarks/bench_js.mjs    # parity PASS 🏆 + score/validate/tier ns
+```
+
 Reproducibility:
-- Native: `zig build benchmark`
-- Node: `node benchmarks/bench_js.mjs`
-- Bun: `bun benchmarks/bench_js.mjs`
-- Browser: serve repo root (`python3 -m http.server`), open `docs/index.html`, click **RUN ZEPH💨**
+- **Node / Bun (live):** `node benchmarks/bench_js.mjs` · `bun benchmarks/bench_js.mjs` — loads `docs/cascade.wasm`, runs the dogfood + per-call timing.
+- **Browser:** serve repo root (`python3 -m http.server`), open `docs/index.html`, click **RUN ZEPH💨**.
+- **Native Zig:** `zig build benchmark` is a **Phase-1 skeleton** today (the full per-call native harness lands in Phase 2); the native figures above are prior measurements pending that harness.
 
 ## Architecture
 

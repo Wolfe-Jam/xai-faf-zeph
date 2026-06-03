@@ -9,7 +9,8 @@ const zeph = @import("zeph");
 // Note: never use std.debug.print in WASM release builds — it bloats binary.
 pub fn main() !void {
     std.debug.print("ZEPH💨 Benchmark — Phase 1 skeleton\n", .{});
-    std.debug.print("Reference: 2019 iMac — 169 μs avg / 3.36 μs peak (measured)\n\n", .{});
+    std.debug.print("Full per-call native timing harness lands in Phase 2.\n", .{});
+    std.debug.print("For live numbers now: bun benchmarks/bench_js.mjs\n\n", .{});
 
     // Skeleton call — real timing harness + 9 experiments lands with the engine work.
     const v = zeph.zeph_version();

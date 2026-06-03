@@ -49,11 +49,13 @@ One Zig kernel. Three exports. Plain functions on bytes.
 
 | Packet | Signature | What it does |
 |---|---|---|
-| `score`    | `(ptr, len) → u8` | Mk4 score (0..100) on a `.faf` input |
-| `validate` | `(ptr, len) → u8` | FAFb structural check — `0` valid, `1` bad magic, `2` truncated, `3` invalid version |
+| `score`    | `(ptr, len) → u8` | **Native Zig:** FAFb *structural* score — populated sections (0..21). **WASM engine:** Mk4 score (0..100) on a `.faf`. |
+| `validate` | `(ptr, len) → u8` | FAFb structural check — `0` valid, `1` bad magic, `2` truncated, `3` unsupported version |
 | `tier`     | `(s: u8) → u8`    | Score → tier byte: 0=White, 1=Red, 2=Yellow, 3=Green, 4=Bronze, 5=Silver, 6=Gold, 7=Trophy |
 
 "Packet" is API / brand language — never a Zig type. The source is plain `pub export fn`'s on byte slices.
+
+**Two layers, one brand.** The native Zig source in this repo (what `zig fetch` installs) is the **FAFb structural layer** — `validate`, structural `score`, and the `tier` ladder are all real and tested (`zig build test`). The headline **Mk4 `.faf` → 0..100** scoring is delivered by the prebuilt engine artifact `docs/cascade.wasm` (proven by the [Dogfood](#benchmarks) receipt). Same export names, distinct layers — the source never claims to be the Mk4 scorer.
 
 ## Why ZEPH exists
 Context is the highest-leverage knob in the agentic stack.

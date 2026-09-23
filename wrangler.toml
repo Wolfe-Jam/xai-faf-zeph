@@ -13,9 +13,23 @@ compatibility_date = "2024-12-30"
 # origin-credential URL (Grok-history, backlinks, RAG-seed); CF
 # is the clean-brand canonical for Zig/Codeberg-facing audiences.
 #
-# Per `ask-before-going-live-website-deploys.md` doctrine,
-# this config is staged + committed autonomously; the actual
-# `wrangler deploy` requires explicit GO from wolfejam.
+# DEPLOY: automatic, from main, on both surfaces (changed 2026-09-23).
+#
+# This Worker is connected to Wolfe-Jam/xai-faf-zeph in the Cloudflare
+# dashboard, so a push to main publishes zeph.faf.one. Vercel has always
+# done the same for its URL. Both move together, which is the only way
+# "byte-identical" survives contact.
+#
+# It used to say `wrangler deploy` needed explicit GO per the
+# `ask-before-going-live-website-deploys.md` doctrine. That gate was doing
+# nothing but harm here: Vercel published on push regardless, so the rule
+# never protected the site — it only let the two copies drift, with Vercel
+# ahead. For a surface whose content IS the commit (a static index.html and
+# a 2.7 KB wasm, no build, no environment), the approval point is the push.
+#
+# If a real gate is wanted again, use a branch — point both CF and Vercel at
+# `live`, work on main, merge when you mean it. Same doctrine, enforced by
+# git rather than by memory, and both surfaces still move together.
 #
 # Deploy reference: see CF-DEPLOY.md in this directory.
 

@@ -62,7 +62,7 @@ Context is the highest-leverage knob in the agentic stack.
 ZEPH makes it **native everywhere** — browser, edge, Node, Bun — while multiplying reasoning, memory, multimodality, and inference efficiency for Grok specifically and frontier agents generally.
 
 **Current public substrate (MIT, on registries):**
-- `faf-rust-sdk` v2 (crates.io) — parse / validate / score / FAFb binary
+- `faf-rust-sdk` v3 (crates.io) — parse / validate / score / FAFb binary
 - `faf-wasm-sdk` v2 (npm) — same engine, browser / edge / Node / Bun
 - `grok-faf-mcp` — live MCP server (first MCP for Grok)
 

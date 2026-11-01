@@ -47,7 +47,7 @@ jobs:
       - name: Install faf CLI
         run: bun add -g faf-cli
 
-      # TAF (Test Archive Format) — emit the quality-claim receipt and gate on it.
+      # TAF (Testing AI Format) — emit the quality-claim receipt and gate on it.
       - name: TAF receipt + Trophy gate (project.faf == 100 / TROPHY)
         run: |
           faf taf --output taf-receipt.json

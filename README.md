@@ -1,4 +1,4 @@
-<!-- faf: xai-faf-zeph | Zig | wasm-engine | ZEPH — Ultra Context Layer for FAF: microsecond context ops via pure Zig → WASM, 2.7 KB ghost binary -->
+<!-- faf: xai-faf-zeph | Zig | wasm-engine | ZEPH — Ultra Context Layer for FAF: microsecond context ops via pure Zig → WASM, 2,986 B ghost binary -->
 
 # ZEPH💨 — Ultra Context Layer (UCL)
 
@@ -8,7 +8,7 @@ The 💨 is the role. The /F/ is the family. Joins **FAF🐘** (memory) as **ZEP
 > **FCL defines. UCL delivers.**  
 > `.faf` is the substrate. **ZEPH is the engine.**
 
-**Pure Zig delivery engine. WebAssembly target. 2.7 KB optimized. Three packet exports — `score`, `validate`, `tier`.**
+**Pure Zig delivery engine. WebAssembly target. 2,986 B optimized. Packet exports — `score`, `validate`, `tier`, `find_section`.**
 
 ZEPH is the performance engine for the **Foundational Context Layer (FCL)**.
 It turns persistent project DNA (`.faf`) into native-everywhere context operations.
@@ -153,11 +153,11 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) and [ROADMAP.md](ROADMAP.md).
 
 - [x] Scoping accepted
 - [x] Three packet exports live: `score`, `validate`, `tier`
-- [x] 2.7 KB `cascade.wasm` shipping in `docs/` — native validate 6.7 ns, tier 4.44 ns, score 12 μs on 21-slot `.faf`
+- [x] 2,986 B `cascade.wasm` shipping in `docs/` — native validate 6.7 ns, tier 4.44 ns, score 12 μs on 21-slot `.faf`. Previous optimized ship was 2,742 B.
 - [x] Live browser demo runs all three packets on real `.faf` — Vercel + GH Pages
 - [x] FAFb v1 validation via `faf-rust-sdk` 2.0.x compatibility (format authority)
 - [x] `score` parity with `faf-wasm-core` Rust kernel — same `.faf` → same score, byte-equal
-- [ ] Full FAFb v1 section-table walk + `findSectionByName` packet
+- [x] `find_section` packet — walks the FAFb v1 section table by name and returns the payload offset. `0xFFFFFFFF` means not found (JavaScript sees `-1`).
 - [ ] Public npm package
 
 ## License

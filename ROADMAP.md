@@ -6,7 +6,7 @@ This roadmap is living. xAI priorities override everything. Phases are measurabl
 
 ## Phase 1 — MVP
 
-**Goal**: Functional parity with faf-rust-sdk v2 + microsecond-class performance on reference hardware. Public repo that the xAI team can immediately evaluate and extend.
+**Goal**: Format authority is `faf-rust-sdk` 2.0.x. Recorded score parity is the 3-fixture check against the `faf-wasm-core` Rust kernel. The 175-test surface against 2.0.0 is still open. `validate` and `tier` are single-digit nanoseconds on the 2019 iMac. `score` on a 21-slot `.faf` is 12,408 ns in the May receipt. Public repo that the xAI team can evaluate and extend.
 
 **Deliverables**
 - Full Zig parser, validator, scorer, compile/decompile to FAFb v1/v2
@@ -14,7 +14,7 @@ This roadmap is living. xAI priorities override everything. Phases are measurabl
 - Reproducible per-packet benchmarks on 2019 iMac (M7 measurement): validate 6.7 ns · tier 4.44 ns · score 12 μs on 21-slot `.faf`
 - 100% FAFb round-trip + conformance tests
 - npm package `faf-zeph` (or `@xai/faf-zeph`) with zero-config JS bindings
-- Live browser demo (`/docs` source — GH Pages ✓, Vercel mirror ✓, `zeph.faf.one` CF custom domain next)
+- Live browser demo (`/docs` source). Checked 2026-11-02, HTTP 200: Vercel, GitHub Pages, and `zeph.faf.one`
 - CI that runs benchmarks on every push
 - Initial docs + API surface
 
@@ -23,7 +23,7 @@ This roadmap is living. xAI priorities override everything. Phases are measurabl
 - xAI team can load a real `.faf` file and see sub-millisecond results
 - No regressions vs faf-wasm-sdk v2 on compatibility
 
-**Status**: Phase 1 substantially complete. cascade.wasm v0.2.0 (2,742 B) live in browser demo on Vercel + GH Pages. mk4-routed scoring. Score parity vs `faf-wasm-core` Rust kernel verified on identical `.faf` inputs. faf-wasm-core v1.1.0 ships Stage 2 npm wrapper.
+**Status**: Live: `cascade.wasm` v0.2.0 (2,742 B) in the browser demo on Vercel, GitHub Pages, and `zeph.faf.one` (HTTP 200 on 2026-11-02). mk4-routed scoring. May receipt on the 2019 iMac: score 12,408 ns, validate 6.7 ns, tier 4.44 ns. Score parity vs the `faf-wasm-core` Rust kernel re-checked 3/3 on 2026-11-02. `faf-wasm-core` 1.2.0 is the published Zig-slot package. Open: the npm name `faf-zeph`, the FAFb section-table packet, a native harness in this repo (`zig build benchmark` is still a Phase-1 skeleton), and the 175-test `faf-rust-sdk` 2.0.0 surface.
 
 ## Phase 2 — Production-grade
 
@@ -88,6 +88,6 @@ This roadmap is living. xAI priorities override everything. Phases are measurabl
 
 ---
 
-*Last updated: May 2026*  
+*Last updated: 2026-11-02*  
 *Doctrine: Every FAF-family brand mark earns a sigil that compresses its role into one character.*  
 **ZEPH💨 — never delays.**

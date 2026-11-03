@@ -130,7 +130,7 @@ bun benchmarks/bench_js.mjs    # parity PASS 🏆 + score/validate/tier ns
 Reproducibility:
 - **Node / Bun (live):** `node benchmarks/bench_js.mjs` · `bun benchmarks/bench_js.mjs` — loads `docs/cascade.wasm`, runs the dogfood + per-call timing.
 - **Browser:** serve repo root (`python3 -m http.server`), open `docs/index.html`, click **RUN ZEPH💨**.
-- **Native Zig:** `zig build benchmark` is a **Phase-1 skeleton** today (the full per-call native harness lands in Phase 2); the native figures above are prior measurements pending that harness.
+- **Native Zig:** `zig build benchmark` times the public structural layer (`validate`, structural `score`, `tier`) on the two-section FAFb fixture from the engine tests. The native Mk4 column above is the engine receipt (2019 iMac, May 2026): score 12,408 ns, validate 6.7 ns, tier 4.44 ns.
 
 ## Architecture
 

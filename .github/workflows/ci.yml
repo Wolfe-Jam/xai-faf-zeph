@@ -24,8 +24,14 @@ jobs:
       - name: Test (WJTTC BRAKE/ENGINE tiers)
         run: zig build test
 
-      - name: Native benchmark (Phase-1 skeleton smoke)
-        run: zig build benchmark
+      - name: Native structural benchmark
+        run: |
+          zig build benchmark 2>&1 | tee bench-out.txt
+          grep -q 'public structural layer' bench-out.txt
+          if grep -q skeleton bench-out.txt; then echo 'skeleton string came back'; exit 1; fi
+          grep -E 'validate: *[0-9.]+ ns' bench-out.txt
+          grep -E 'score: *[0-9.]+ ns' bench-out.txt
+          grep -E 'tier: *[0-9.]+ ns' bench-out.txt
 
   dogfood-and-taf:
     name: Dogfood parity + TAF receipt

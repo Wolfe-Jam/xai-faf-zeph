@@ -21,6 +21,11 @@ jobs:
       - name: Build
         run: zig build
 
+      - name: find_section packet
+        run: |
+          node benchmarks/find_section.mjs zig-out/bin/zeph.wasm
+          node benchmarks/find_section.mjs docs/cascade.wasm
+
       - name: Test (WJTTC BRAKE/ENGINE tiers)
         run: zig build test
 

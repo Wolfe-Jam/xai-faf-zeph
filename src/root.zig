@@ -48,6 +48,19 @@ pub export fn tier(s: u8) u8 {
     else 0; // White
 }
 
+/// FAFb section lookup. Returns the section payload offset, or
+/// 0xFFFFFFFF when the name is missing, the magic is wrong, or the
+/// buffer is shorter than a header. JavaScript sees that sentinel as -1.
+pub const find_section_not_found: u32 = 0xFFFFFFFF;
+
+pub export fn find_section(data_ptr: [*]const u8, data_len: usize, name_ptr: [*]const u8, name_len: usize) u32 {
+    if (data_len < @sizeOf(fafb.Header)) return find_section_not_found;
+    const data = data_ptr[0..data_len];
+    const header = fafb.parseHeader(data) catch return find_section_not_found;
+    const entry = fafb.findSectionByName(data, header, name_ptr[0..name_len]) orelse return find_section_not_found;
+    return entry.offset;
+}
+
 // Re-exports for Zig module consumers (`@import("zeph")`).
 pub const FafbHeader = fafb.Header;
 pub const parse_fafb = fafb.parseHeader;
@@ -127,6 +140,32 @@ test "AERO: validate survives 200k fuzz runs (all lengths, alignments 0..7), no 
         try std.testing.expect(code <= 3); // always a defined code
         try std.testing.expectEqual(code, validate(slice.ptr, slice.len)); // deterministic
     }
+}
+
+const dna_fafb = [_]u8{
+    'F', 'A', 'F', 'B', 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00,
+    0x00, 0x00, 0x34, 0x00, 0x00, 0x00, 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 1, 0, 0, 0, 0x40, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x05, 0x00, 0x00, 0x00,
+    0x03, 'D', 'N', 'A', 0x00,
+};
+
+fn lookupSection(data: []const u8, name: []const u8) u32 {
+    return find_section(data.ptr, data.len, name.ptr, name.len);
+}
+
+test "ENGINE: find_section returns the payload offset for a known name" {
+    try std.testing.expectEqual(@as(u32, 64), lookupSection(&dna_fafb, "DNA"));
+}
+
+test "ENGINE: find_section returns 0xFFFFFFFF for a missing name" {
+    try std.testing.expectEqual(find_section_not_found, lookupSection(&dna_fafb, "NOPE"));
+}
+
+test "BRAKE: find_section returns 0xFFFFFFFF for bad magic and a short buffer" {
+    var bad = dna_fafb;
+    bad[0] = 'X';
+    try std.testing.expectEqual(find_section_not_found, lookupSection(&bad, "DNA"));
+    try std.testing.expectEqual(find_section_not_found, lookupSection("FAF", "DNA"));
 }
 
 test "AERO: score survives 100k fuzz runs (valid magic + garbage bodies), bounded 0..21" {

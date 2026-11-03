@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ZEPH is the Zig delivery engine for FAF context. Three packet exports (score · validate · tier), 2.7 KB WASM, single-digit-nanosecond validate + tier on consumer hardware. Live demo + click-to-verify benchmark in your browser.">
+    <meta name="description" content="ZEPH is the Zig delivery engine for FAF context. Packet exports score, validate, tier, and find_section. 2,986 B WASM, single-digit-nanosecond validate + tier on consumer hardware. Live demo + click-to-verify benchmark in your browser.">
 
     <!-- Social previews -->
     <meta property="og:title" content="ZEPH💨 — Ultra Context Layer">
-    <meta property="og:description" content="Pure Zig delivery engine. 2.7 KB WASM. Native validate 6.7 ns · tier 4.44 ns on a 2019 iMac. Click to verify in your browser.">
+    <meta property="og:description" content="Pure Zig delivery engine. 2,986 B WASM. Native validate 6.7 ns · tier 4.44 ns on a 2019 iMac. Click to verify in your browser.">
     <meta property="og:url" content="https://xai-faf-zeph.vercel.app/">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="ZEPH💨 — Ultra Context Layer">
-    <meta name="twitter:description" content="Pure Zig delivery engine. 2.7 KB WASM. Native validate 6.7 ns · tier 4.44 ns on a 2019 iMac.">
+    <meta name="twitter:description" content="Pure Zig delivery engine. 2,986 B WASM. Native validate 6.7 ns · tier 4.44 ns on a 2019 iMac.">
 
     <!-- Inline SVG favicon (no asset file) -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💨</text></svg>">
@@ -216,7 +216,7 @@
                     </div>
                     <div class="flex justify-between border-b border-white/10 pb-3">
                         <span class="text-zinc-200">Artifact</span>
-                        <span class="font-semibold">2.7 KB cascade.wasm</span>
+                        <span class="font-semibold">2,986 B cascade.wasm</span>
                     </div>
                     <div class="flex justify-between border-b border-white/10 pb-3">
                         <span class="text-zinc-200">Packets</span>
@@ -254,7 +254,7 @@
             <div class="flex items-center justify-between mb-6">
                 <div>
                     <div class="font-semibold">cascade.wasm loaded</div>
-                    <div id="wasm-meta" class="text-xs text-zinc-200">2,742 bytes · three packets</div>
+                    <div id="wasm-meta" class="text-xs text-zinc-200">2,986 bytes · three packets</div>
                 </div>
                 <div id="status" class="text-emerald-400 text-xs font-mono">READY</div>
             </div>

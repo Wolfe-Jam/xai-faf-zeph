@@ -23,7 +23,7 @@ This roadmap is living. xAI priorities override everything. Phases are measurabl
 - xAI team can load a real `.faf` file and see sub-millisecond results
 - No regressions vs faf-wasm-sdk v2 on compatibility
 
-**Status**: Live: `cascade.wasm` v0.2.0 (2,986 B) in the browser demo on Vercel, GitHub Pages, and `zeph.faf.one` (HTTP 200 on 2026-11-02). mk4-routed scoring. `find_section` returns a FAFb payload offset. May receipt on the 2019 iMac: score 12,408 ns, validate 6.7 ns, tier 4.44 ns. Score parity vs the `faf-wasm-core` Rust kernel re-checked 3/3 on 2026-11-02. `faf-wasm-core` 1.2.0 is the published Zig-slot package. Open: the npm name `faf-zeph`, and the 175-test `faf-rust-sdk` 2.0.0 surface. `zig build benchmark` in this repo times the public structural layer. The native Mk4 column is the May engine receipt.
+**Status**: Live: `cascade.wasm` v0.2.0 (2,986 B) in the browser demo on Vercel, GitHub Pages, and `zeph.faf.one` (HTTP 200 on 2026-11-02). mk4-routed scoring. `find_section` returns a FAFb payload offset. May receipt on the 2019 iMac: score 12,408 ns, validate 6.7 ns, tier 4.44 ns. Score parity vs the `faf-wasm-core` Rust kernel re-checked 3/3 on 2026-11-02. `faf-wasm-core` 1.2.0 is the published Zig-slot package. Open: publishing `faf-zeph` (0.1.0 is prepared in `npm/faf-zeph` and is not on the registry), and the 175-test `faf-rust-sdk` 2.0.0 surface. `zig build benchmark` in this repo times the public structural layer. The native Mk4 column is the May engine receipt.
 
 ## Phase 2 — Production-grade
 

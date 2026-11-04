@@ -1,0 +1,24 @@
+{
+  "name": "faf-zeph",
+  "version": "0.1.0",
+  "description": "Loads the ZEPH wasm and calls score, validate, tier, and find_section.",
+  "type": "module",
+  "main": "./index.mjs",
+  "exports": {
+    ".": "./index.mjs"
+  },
+  "files": [
+    "index.mjs",
+    "cascade.wasm"
+  ],
+  "author": "FAF <team@faf.one>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wolfe-Jam/xai-faf-zeph.git",
+    "directory": "npm/faf-zeph"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

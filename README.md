@@ -81,7 +81,7 @@ cd xai-faf-zeph && zig build benchmark
 
 The `cascade.wasm` artifact ships in `docs/`. npm wrapper lives in [`faf-wasm-core`](https://www.npmjs.com/package/faf-wasm-core) v1.1.0 — Stage 2 wiring landed via M7. Both Rust and Zig kernels live behind a single `FafKernel` interface; score parity vs Rust kernel verified.
 
-`npm/faf-zeph` is the unpublished `faf-zeph` package for that same wasm. It calls `score`, `validate`, `tier`, and `find_section`.
+[`faf-zeph`](https://www.npmjs.com/package/faf-zeph) 0.1.0 is on npm. It calls `score`, `validate`, `tier`, and `find_section` on that same wasm.
 
 ### Use as a dependency (Zig)
 
@@ -160,7 +160,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) and [ROADMAP.md](ROADMAP.md).
 - [x] FAFb v1 validation via `faf-rust-sdk` 2.0.x compatibility (format authority)
 - [x] `score` parity with `faf-wasm-core` Rust kernel — same `.faf` → same score, byte-equal
 - [x] `find_section` packet — walks the FAFb v1 section table by name and returns the payload offset. `0xFFFFFFFF` means not found (JavaScript sees `-1`).
-- [ ] Public npm package. `faf-zeph` 0.1.0 is prepared in `npm/faf-zeph` and is not on the registry. This box stays open until the registry returns that version.
+- [x] Public npm package. [`faf-zeph` 0.1.0](https://www.npmjs.com/package/faf-zeph) is on the registry. `npm view faf-zeph version` returns `0.1.0`.
 
 ## License
 

@@ -26,6 +26,9 @@ jobs:
           node benchmarks/find_section.mjs zig-out/bin/zeph.wasm
           node benchmarks/find_section.mjs docs/cascade.wasm
 
+      - name: faf-zeph package pack
+        run: node benchmarks/pack_faf_zeph.mjs
+
       - name: Test (WJTTC BRAKE/ENGINE tiers)
         run: zig build test
 
